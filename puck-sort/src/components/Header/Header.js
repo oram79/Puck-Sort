@@ -1,46 +1,45 @@
 import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 import { useTheme } from '../../context/ThemeContext';
-import styles from './Header.css';
 
 const Header = () => {
   const { activeTab, setActiveTab } = useTeamContext();
   const { isDarkMode, toggleTheme } = useTheme();
 
   return (
-    <header className={styles.header}>
-      <div className={styles.logoContainer}>
-        <div className={styles.logo}>
-          <span className={styles.iconHockey}>🏒</span>
-          <span className={styles.appName}>PuckSort</span>
+    <header className="header">
+      <div className="logoContainer">
+        <div className="logo">
+          <span className="iconHockey">🏒</span>
+          <span className="appName">PuckSort</span>
         </div>
-        <div className={styles.tagline}>Team Management System</div>
+        <div className="tagline">Team Management System</div>
       </div>
       
-      <nav className={styles.navigation}>
+      <nav className="navigation">
         <button
-          className={`${styles.navButton} ${activeTab === 'roster' ? styles.active : ''}`}
+          className={`navButton ${activeTab === 'roster' ? 'active' : ''}`}
           onClick={() => setActiveTab('roster')}
         >
           Roster
         </button>
         <button
-          className={`${styles.navButton} ${activeTab === 'teams' ? styles.active : ''}`}
+          className={`navButton ${activeTab === 'teams' ? 'active' : ''}`}
           onClick={() => setActiveTab('teams')}
         >
           Teams
         </button>
         <button
-          className={`${styles.navButton} ${activeTab === 'settings' ? styles.active : ''}`}
+          className={`navButton ${activeTab === 'settings' ? 'active' : ''}`}
           onClick={() => setActiveTab('settings')}
         >
           Settings
         </button>
       </nav>
       
-      <div className={styles.actions}>
+      <div className="actions">
         <button
-          className={styles.themeToggle}
+          className="themeToggle"
           onClick={toggleTheme}
           aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 import TeamRoster from './TeamRoster';
-import styles from './TeamsView.css';
 
 const TeamsView = () => {
   const { 
@@ -29,25 +28,25 @@ const TeamsView = () => {
     : 0;
 
   return (
-    <div className={styles.teamsView}>
-      <div className={styles.header}>
+    <div className="teamsView">
+      <div className="header">
         <div>
-          <h1 className={styles.title}>Team Management</h1>
-          <p className={styles.subtitle}>
+          <h1 className="title">Team Management</h1>
+          <p className="subtitle">
             Organize players into balanced teams
           </p>
         </div>
 
-        <div className={styles.actions}>
+        <div className="actions">
           <button 
-            className={`${styles.actionButton} ${styles.distributeButton}`}
+            className={`actionButton distributeButton`}
             onClick={autoDistributeTeams}
             disabled={isLoading || players.length === 0}
           >
             {isLoading ? 'Distributing...' : '🔄 Auto-Distribute'}
           </button>
           <button 
-            className={`${styles.actionButton} ${styles.saveButton}`}
+            className={`actionButton saveButton`}
             onClick={saveTeamsToFile}
             disabled={team1.length === 0 && team2.length === 0}
           >
@@ -56,32 +55,32 @@ const TeamsView = () => {
         </div>
       </div>
 
-      <div className={styles.stats}>
-        <div className={styles.statCard}>
-          <span className={styles.statValue}>{totalPlayers}</span>
-          <span className={styles.statLabel}>Total Players</span>
+      <div className="stats">
+        <div className="statCard">
+          <span className="statValue">{totalPlayers}</span>
+          <span className="statLabel">Total Players</span>
         </div>
-        <div className={styles.statCard}>
-          <span className={styles.statValue}>{assignedCount}</span>
-          <span className={styles.statLabel}>Assigned</span>
+        <div className="statCard">
+          <span className="statValue">{assignedCount}</span>
+          <span className="statLabel">Assigned</span>
         </div>
-        <div className={styles.statCard}>
-          <span className={styles.statValue}>{unassignedCount}</span>
-          <span className={styles.statLabel}>Unassigned</span>
+        <div className="statCard">
+          <span className="statValue">{unassignedCount}</span>
+          <span className="statLabel">Unassigned</span>
         </div>
-        <div className={styles.statCard}>
-          <div className={styles.progressContainer}>
+        <div className="statCard">
+          <div className="progressContainer">
             <div 
-              className={styles.progressBar} 
+              className="progressBar" 
               style={{ width: `${assignedPercentage}%` }}
             />
-            <span className={styles.progressText}>{assignedPercentage}%</span>
+            <span className="progressText">{assignedPercentage}%</span>
           </div>
-          <span className={styles.statLabel}>Assigned</span>
+          <span className="statLabel">Assigned</span>
         </div>
       </div>
 
-      <div className={styles.teamsContainer}>
+      <div className="teamsContainer">
         <TeamRoster 
           team={team1} 
           teamName="Black" 
@@ -95,22 +94,22 @@ const TeamsView = () => {
       </div>
 
       {unassignedPlayers.length > 0 && (
-        <div className={styles.unassignedSection}>
-          <h2 className={styles.sectionTitle}>Unassigned Players</h2>
-          <div className={styles.unassignedList}>
+        <div className="unassignedSection">
+          <h2 className="sectionTitle">Unassigned Players</h2>
+          <div className="unassignedList">
             {unassignedPlayers.map(player => (
-              <div key={player.id} className={styles.unassignedPlayer}>
-                <span className={styles.playerName}>{player.name}</span>
-                <div className={styles.actions}>
+              <div key={player.id} className="unassignedPlayer">
+                <span className="playerName">{player.name}</span>
+                <div className="actions">
                   <button 
                     onClick={() => addToTeam1(player)}
-                    className={`${styles.teamButton} ${styles.teamBlackBtn}`}
+                    className={`teamButton teamBlackBtn`}
                   >
                     Team Black
                   </button>
                   <button 
                     onClick={() => addToTeam2(player)}
-                    className={`${styles.teamButton} ${styles.teamWhiteBtn}`}
+                    className={`teamButton teamWhiteBtn`}
                   >
                     Team White
                   </button>

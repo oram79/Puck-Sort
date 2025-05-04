@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 import { useTheme } from '../../context/ThemeContext';
-import styles from './RosterView.css';
 
 const PlayerCard = ({ player }) => {
   const { 
@@ -33,39 +32,39 @@ const PlayerCard = ({ player }) => {
 
   return (
     <div 
-      className={`${styles.playerCard} ${isAssigned ? styles.assigned : ''}`}
+      className={`playerCard ${isAssigned ? 'assigned' : ''}`}
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      <div className={styles.playerInfo}>
-        <div className={styles.nameContainer}>
-          <h3 className={styles.playerName}>{player.name}</h3>
+      <div className="playerInfo">
+        <div className="nameContainer">
+          <h3 className="playerName">{player.name}</h3>
           {isAssigned && (
             <div 
-              className={`${styles.teamBadge} ${isInTeam1 ? styles.teamBlack : styles.teamWhite}`}
+              className={`teamBadge ${isInTeam1 ? 'teamBlack' : 'teamWhite'}`}
             >
               {isInTeam1 ? 'Team Black' : 'Team White'}
             </div>
           )}
         </div>
-        <p className={styles.playerDate}>
+        <p className="playerDate">
           Added {formatDate(player.createdAt)}
         </p>
       </div>
 
-      <div className={`${styles.playerActions} ${showActions ? styles.visible : ''}`}>
+      <div className={`playerActions ${showActions ? 'visible' : ''}`}>
         {!isAssigned ? (
           <>
             <button 
               onClick={() => addToTeam1(player)}
-              className={`${styles.actionButton} ${styles.teamBlackBtn}`}
+              className={`actionButton teamBlackBtn`}
               aria-label="Add to Team Black"
             >
               Team Black
             </button>
             <button 
               onClick={() => addToTeam2(player)}
-              className={`${styles.actionButton} ${styles.teamWhiteBtn}`}
+              className={`actionButton teamWhiteBtn`}
               aria-label="Add to Team White"
             >
               Team White
@@ -74,7 +73,7 @@ const PlayerCard = ({ player }) => {
         ) : (
           <button 
             onClick={() => removeFromTeams(player)}
-            className={`${styles.actionButton} ${styles.removeTeamBtn}`}
+            className={`actionButton removeTeamBtn`}
             aria-label="Remove from team"
           >
             Remove from Team
@@ -82,7 +81,7 @@ const PlayerCard = ({ player }) => {
         )}
         <button 
           onClick={() => handleRemovePlayer(player.id)}
-          className={`${styles.actionButton} ${styles.deleteBtn}`}
+          className={`actionButton deleteBtn`}
           aria-label="Delete player"
         >
           Delete

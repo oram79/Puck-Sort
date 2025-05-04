@@ -1,19 +1,18 @@
 import React from 'react';
-import styles from './Footer.css';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className={styles.footer}>
-      <div className={styles.content}>
-        <p className={styles.copyright}>
+    <footer className="footer">
+      <div className="content">
+        <p className="copyright">
           &copy; {currentYear} PuckSort | Ball Hockey Team Management System
         </p>
-        <div className={styles.links}>
-          <a href="#terms" className={styles.link}>Terms</a>
-          <a href="#privacy" className={styles.link}>Privacy</a>
-          <a href="#help" className={styles.link}>Help</a>
+        <div className="links">
+          <a href="#terms" className="link">Terms</a>
+          <a href="#privacy" className="link">Privacy</a>
+          <a href="#help" className="link">Help</a>
         </div>
       </div>
     </footer>

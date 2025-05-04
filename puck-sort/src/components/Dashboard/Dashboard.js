@@ -4,13 +4,12 @@ import RosterView from '../RosterView/RosterView';
 import TeamsView from '../TeamsView/TeamsView';
 import SettingsView from '../SettingsView/SettingsView';
 import Notification from '../Notification/Notification';
-import styles from './Dashboard.css';
 
 const Dashboard = () => {
   const { activeTab, notification } = useTeamContext();
 
   return (
-    <main className={styles.dashboard}>
+    <main className="dashboard">
       {notification.message && (
         <Notification
           message={notification.message}
@@ -18,7 +17,7 @@ const Dashboard = () => {
         />
       )}
       
-      <div className={styles.content}>
+      <div className="content">
         {activeTab === 'roster' && <RosterView />}
         {activeTab === 'teams' && <TeamsView />}
         {activeTab === 'settings' && <SettingsView />}

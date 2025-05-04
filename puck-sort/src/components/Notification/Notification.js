@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Notification.css';
 
 const Notification = ({ message, type = 'success' }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -52,21 +51,21 @@ const Notification = ({ message, type = 'success' }) => {
   };
 
   return (
-    <div className={`${styles.notification} ${styles[type]}`}>
-      <div className={styles.iconContainer}>
-        <span className={styles.icon}>{getIcon()}</span>
+    <div className={`notification ${type}`}>
+      <div className="iconContainer">
+        <span className="icon">{getIcon()}</span>
       </div>
-      <div className={styles.content}>
-        <p className={styles.message}>{message}</p>
-        <div className={styles.progressBarContainer}>
+      <div className="content">
+        <p className="message">{message}</p>
+        <div className="progressBarContainer">
           <div 
-            className={styles.progressBar} 
+            className="progressBar" 
             style={{ width: `${progress}%` }} 
           />
         </div>
       </div>
       <button 
-        className={styles.closeButton}
+        className="closeButton"
         onClick={() => setIsVisible(false)}
         aria-label="Close notification"
       >

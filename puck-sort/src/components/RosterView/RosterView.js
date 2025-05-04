@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 import PlayerCard from './PlayerCard';
-import styles from './RosterView.css';
 
 const RosterView = () => {
   const { 
@@ -24,26 +23,26 @@ const RosterView = () => {
   };
 
   return (
-    <div className={styles.rosterView}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Player Roster</h1>
-        <p className={styles.subtitle}>
+    <div className="rosterView">
+      <div className="header">
+        <h1 className="title">Player Roster</h1>
+        <p className="subtitle">
           Manage all players available for team assignment
         </p>
       </div>
 
-      <div className={styles.controls}>
-        <div className={styles.searchContainer}>
+      <div className="controls">
+        <div className="searchContainer">
           <input 
             type="text"
             placeholder="Search players..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className={styles.searchInput}
+            className="searchInput"
           />
           {searchTerm && (
             <button 
-              className={styles.clearSearch}
+              className="clearSearch"
               onClick={() => setSearchTerm('')}
               aria-label="Clear search"
             >
@@ -52,11 +51,11 @@ const RosterView = () => {
           )}
         </div>
 
-        <div className={styles.sortContainer}>
-          <label htmlFor="sort" className={styles.sortLabel}>Sort by:</label>
+        <div className="sortContainer">
+          <label htmlFor="sort" className="sortLabel">Sort by:</label>
           <select
             id="sort"
-            className={styles.sortSelect}
+            className="sortSelect"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
           >
@@ -68,40 +67,40 @@ const RosterView = () => {
         </div>
       </div>
 
-      <div className={styles.addPlayerContainer}>
+      <div className="addPlayerContainer">
         <input 
           type="text"
           placeholder="Enter player name"
           value={newPlayer}
           onChange={(e) => setNewPlayer(e.target.value)}
           onKeyDown={handleKeyDown}
-          className={styles.addPlayerInput}
+          className="addPlayerInput"
         />
         <button 
           onClick={handleAddPlayer}
-          className={styles.addPlayerButton}
+          className="addPlayerButton"
           disabled={!newPlayer.trim()}
         >
           Add Player
         </button>
       </div>
 
-      <div className={styles.playersList}>
+      <div className="playersList">
         {filteredPlayers.length > 0 ? (
           filteredPlayers.map(player => (
             <PlayerCard key={player.id} player={player} />
           ))
         ) : (
-          <div className={styles.emptyState}>
+          <div className="emptyState">
             {searchTerm ? (
               <>
-                <p className={styles.emptyTitle}>No players found</p>
-                <p className={styles.emptyDesc}>Try a different search term</p>
+                <p className="emptyTitle">No players found</p>
+                <p className="emptyDesc">Try a different search term</p>
               </>
             ) : (
               <>
-                <p className={styles.emptyTitle}>No players added yet</p>
-                <p className={styles.emptyDesc}>
+                <p className="emptyTitle">No players added yet</p>
+                <p className="emptyDesc">
                   Add players to start building your teams
                 </p>
               </>

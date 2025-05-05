@@ -1,10 +1,8 @@
 import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
-import { useTheme } from '../../context/ThemeContext';
 
 const Header = () => {
   const { activeTab, setActiveTab } = useTeamContext();
-  const { isDarkMode, toggleTheme } = useTheme();
 
   return (
     <header className="header">
@@ -36,16 +34,6 @@ const Header = () => {
           Settings
         </button>
       </nav>
-      
-      <div className="actions">
-        <button
-          className="themeToggle"
-          onClick={toggleTheme}
-          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {isDarkMode ? '☀️' : '🌙'}
-        </button>
-      </div>
     </header>
   );
 };

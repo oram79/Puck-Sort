@@ -97,26 +97,6 @@ const SettingsView = () => {
         </div>
         
         <div className="settingsCard">
-          <h2 className="cardTitle">Appearance</h2>
-          <div className="settingItem">
-            <div className="settingInfo">
-              <span className="settingLabel">Dark Mode</span>
-              <span className="settingDescription">
-                Switch between light and dark theme
-              </span>
-            </div>
-            <label className="toggle">
-              <input 
-                type="checkbox" 
-                checked={isDarkMode}
-                onChange={toggleTheme}
-              />
-              <span className="slider"></span>
-            </label>
-          </div>
-        </div>
-        
-        <div className="settingsCard">
           <h2 className="cardTitle">Data Management</h2>
           <div className="settingActions">
             <button 

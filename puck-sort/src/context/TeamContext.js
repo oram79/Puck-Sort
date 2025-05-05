@@ -19,6 +19,18 @@ export const TeamProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('name-asc'); // 'name-asc', 'name-desc', 'date-asc', 'date-desc'
 
+  // Show notification message - MOVED THIS UP before it's used
+  const showNotification = useCallback((message, type = 'success') => {
+    setNotification({ message, type });
+    
+    // Auto-dismiss notification after 3 seconds
+    const timer = setTimeout(() => {
+      setNotification({ message: '', type: '' });
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   // Load players from localStorage on component mount
   useEffect(() => {
     const loadData = () => {
@@ -49,7 +61,7 @@ export const TeamProvider = ({ children }) => {
     };
 
     loadData();
-  }, []);
+  }, [showNotification]);
 
   // Save to localStorage whenever players or teams change
   useEffect(() => {
@@ -66,19 +78,7 @@ export const TeamProvider = ({ children }) => {
     };
 
     saveData();
-  }, [players, team1, team2, activeTab]);
-
-  // Show notification message
-  const showNotification = useCallback((message, type = 'success') => {
-    setNotification({ message, type });
-    
-    // Auto-dismiss notification after 3 seconds
-    const timer = setTimeout(() => {
-      setNotification({ message: '', type: '' });
-    }, 3000);
-    
-    return () => clearTimeout(timer);
-  }, []);
+  }, [players, team1, team2, activeTab, showNotification]);
 
   // Handle adding a new player
   const handleAddPlayer = useCallback(() => {
@@ -125,7 +125,7 @@ export const TeamProvider = ({ children }) => {
     setTeam1(prev => [...prev, player]);
     setTeam2(prev => prev.filter(p => p.id !== player.id));
     showNotification(`${player.name} added to Team Black`);
-  }, [team1, team2, showNotification]);
+  }, [team1, showNotification]);
 
   // Add player to Team 2 (White)
   const addToTeam2 = useCallback((player) => {
@@ -133,7 +133,7 @@ export const TeamProvider = ({ children }) => {
     setTeam2(prev => [...prev, player]);
     setTeam1(prev => prev.filter(p => p.id !== player.id));
     showNotification(`${player.name} added to Team White`);
-  }, [team1, team2, showNotification]);
+  }, [team2, showNotification]);
 
   // Remove player from teams
   const removeFromTeams = useCallback((player) => {

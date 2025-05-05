@@ -4,7 +4,6 @@ import { useTheme } from '../../context/ThemeContext';
 
 const SettingsView = () => {
   const { showNotification, players, team1, team2 } = useTeamContext();
-  const { isDarkMode, toggleTheme } = useTheme();
   
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   
@@ -93,26 +92,6 @@ const SettingsView = () => {
               <span className="summaryValue">{totalPlayers - assignedPlayers}</span>
               <span className="summaryLabel">Unassigned</span>
             </div>
-          </div>
-        </div>
-        
-        <div className="settingsCard">
-          <h2 className="cardTitle">Appearance</h2>
-          <div className="settingItem">
-            <div className="settingInfo">
-              <span className="settingLabel">Dark Mode</span>
-              <span className="settingDescription">
-                Switch between light and dark theme
-              </span>
-            </div>
-            <label className="toggle">
-              <input 
-                type="checkbox" 
-                checked={isDarkMode}
-                onChange={toggleTheme}
-              />
-              <span className="slider"></span>
-            </label>
           </div>
         </div>
         

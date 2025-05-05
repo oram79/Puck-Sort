@@ -86,7 +86,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📱 Contact
 
-Your Name - [@oram79](https://www.instagram.com/oram_7913/) - logansjoram7922@gmail.com
+Logan Oram - [@oram79](https://www.instagram.com/oram_7913/) - logansjoram7922@gmail.com
 
 ---
 

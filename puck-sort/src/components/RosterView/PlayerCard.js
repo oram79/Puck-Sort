@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTeamContext } from '../../context/TeamContext';
-import { useTheme } from '../../context/ThemeContext';
 
 const PlayerCard = ({ player }) => {
   const { 
@@ -12,23 +11,12 @@ const PlayerCard = ({ player }) => {
     team2
   } = useTeamContext();
 
-  const { isDarkMode } = useTheme();
   const [showActions, setShowActions] = useState(false);
 
   // Check if player is already assigned to a team
   const isInTeam1 = team1.some(p => p.id === player.id);
   const isInTeam2 = team2.some(p => p.id === player.id);
   const isAssigned = isInTeam1 || isInTeam2;
-
-  // Format the date the player was added
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
-    }).format(date);
-  };
 
   return (
     <div 
@@ -47,12 +35,9 @@ const PlayerCard = ({ player }) => {
             </div>
           )}
         </div>
-        <p className="playerDate">
-          Added {formatDate(player.createdAt)}
-        </p>
       </div>
 
-      <div className={`playerActions ${showActions ? 'visible' : ''}`}>
+      <div className="playerActions">
         {!isAssigned ? (
           <>
             <button 
@@ -76,7 +61,7 @@ const PlayerCard = ({ player }) => {
             className={`actionButton removeTeamBtn`}
             aria-label="Remove from team"
           >
-            Remove from Team
+            Remove
           </button>
         )}
         <button 

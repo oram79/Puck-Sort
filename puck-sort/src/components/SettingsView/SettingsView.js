@@ -4,7 +4,6 @@ import { useTheme } from '../../context/ThemeContext';
 
 const SettingsView = () => {
   const { showNotification, players, team1, team2 } = useTeamContext();
-  const { isDarkMode, toggleTheme } = useTheme();
   
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   

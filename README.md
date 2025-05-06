@@ -1,6 +1,6 @@
 # PuckSort: Hockey Team Manager
 
-![PuckSort Banner](https://img.shields.io/badge/TeamSlap-Ball%20Hockey%20Manager-0a4da8?style=for-the-badge)
+![PuckSort Banner](https://img.shields.io/badge/PuckSort-Ball%20Hockey%20Manager-0a4da8?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=flat-square&logo=react)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 

@@ -97,7 +97,7 @@ const SettingsView = () => {
             </button>
           </div>
           <p className="resetNote">
-            <i className="fas fa-info-circle"></i> Resetting will clear all player data and team assignments. This action cannot be undone.
+            <i className="fas fa-info-circle"></i> Resetting or refreshing the page will clear all player data and team assignments. This action cannot be undone.
           </p>
         </div>
         

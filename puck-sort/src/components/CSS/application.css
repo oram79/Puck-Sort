@@ -1,43 +1,49 @@
 /* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 /* Global CSS Variables */
 :root {
-  /* Primary color palette */
-  --color-primary: #303863;
-  --color-primary-light: rgba(61, 90, 254, 0.1);
-  --color-primary-dark: #556777;
+  /* Primary color palette - Monochrome */
+  --color-primary: #000000;
+  --color-primary-light: rgba(0, 0, 0, 0.1);
+  --color-primary-dark: #000000;
   
-  /* Secondary color palette */
-  --color-secondary: #00bfa5;
-  --color-secondary-dark: #008e76;
+  /* Secondary color palette - Grays */
+  --color-secondary: #333333;
+  --color-secondary-dark: #222222;
   
   /* Status colors */
-  --color-success: #00c853;
-  --color-success-dark: #009624;
-  --color-warning: #ffd600;
-  --color-warning-dark: #c7a500;
-  --color-error: #ff3d00;
-  --color-error-dark: #dd2c00;
-  --color-info: #2979ff;
-  --color-info-dark: #2962ff;
+  --color-success: #444444;
+  --color-success-dark: #333333;
+  --color-warning: #666666;
+  --color-warning-dark: #555555;
+  --color-error: #888888;
+  --color-error-dark: #777777;
+  --color-info: #555555;
+  --color-info-dark: #444444;
   
   /* Team colors */
-  --color-team-black: #263238;
-  --color-team-black-dark: #000a12;
-  --color-team-white: #eceff1;
-  --color-team-white-dark: #cfd8dc;
+  --color-team-black: #000000;
+  --color-team-black-dark: #000000;
+  --color-team-white: #f5f5f5;
+  --color-team-white-dark: #e0e0e0;
+  
+  /* Position colors */
+  --color-forward: #444444;
+  --color-defense: #666666;
+  --color-goalie: #888888;
   
   /* Text colors */
-  --color-text-primary: #263238;
-  --color-text-secondary: #607d8b;
+  --color-text-primary: #000000;
+  --color-text-secondary: #666666;
   
   /* Surface colors */
   --color-surface: #ffffff;
-  --color-surface-variant: #f5f7fa;
-  --color-hover: #e6e9ed;
-  --color-border: #cfd8dc;
-  --color-disabled: #b0bec5;
+  --color-surface-variant: #f5f5f5;
+  --color-hover: #eeeeee;
+  --color-border: #dddddd;
+  --color-disabled: #000000;
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -73,7 +79,7 @@
 }
 
 body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--color-surface-variant);
   color: var(--color-text-primary);
   line-height: 1.5;
@@ -88,6 +94,11 @@ code {
     monospace;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+}
+
 .app-container {
   min-height: 100vh;
   display: flex;
@@ -95,11 +106,12 @@ code {
 }
 
 button {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  cursor: pointer;
 }
 
 input, select, textarea {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Scrollbar styling */
@@ -129,10 +141,10 @@ input, select, textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem 2.5rem;
-  background-color: var(--color-primary-dark);
-  box-shadow: var(--shadow-md);
-  position: sticky;
+  padding: 1rem 2rem;
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
+  position: relative; /* Changed from sticky to relative */
   top: 0;
   z-index: 10;
   color: white;
@@ -152,12 +164,13 @@ input, select, textarea {
   color: white;
 }
 
-.iconHockey {
-  font-size: 2rem;
+.logoIcon {
+  font-size: 1.5rem;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 
 .appName {
+  font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.75px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
@@ -166,14 +179,14 @@ input, select, textarea {
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.85);
   margin-top: -2px;
-  margin-left: 3rem;
+  margin-left: 2.5rem;
   font-weight: 300;
 }
 
 .navigation {
   display: flex;
-  gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.15);
+  gap: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 0.25rem;
   border-radius: var(--radius-lg);
 }
@@ -181,18 +194,25 @@ input, select, textarea {
 .navButton {
   background: none;
   border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.95rem;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navIcon {
+  font-size: 0.9rem;
 }
 
 .navButton:hover {
   color: white;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .navButton.active {
@@ -236,7 +256,7 @@ input, select, textarea {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 2.5rem;
+  padding: 1.5rem;
   position: relative;
   background-color: var(--color-surface-variant);
 }
@@ -262,7 +282,7 @@ input, select, textarea {
 
 @media (max-width: 768px) {
   .dashboard {
-    padding: 1.25rem;
+    padding: 1rem;
   }
 }
 
@@ -271,8 +291,8 @@ input, select, textarea {
    ========================== */
 .footer {
   margin-top: 2rem;
-  padding: 1.5rem 2.5rem;
-  background-color: var(--color-primary-dark);
+  padding: 1.25rem 2rem;
+  background-color: var(--color-primary);
   color: white;
 }
 
@@ -288,6 +308,9 @@ input, select, textarea {
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .links {
@@ -300,6 +323,9 @@ input, select, textarea {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .link:hover {
@@ -367,28 +393,24 @@ input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  font-size: 14px;
-  font-weight: 700;
-  color: white;
+  font-size: 1.5rem;
+  color: black;
 }
 
-.success .icon {
-  background-color: var(--color-success);
+.notification.success .icon {
+  color: var(--color-success);
 }
 
-.error .icon {
-  background-color: var(--color-error);
+.notification.error .icon {
+  color: var(--color-error);
 }
 
-.info .icon {
-  background-color: var(--color-info);
+.notification.info .icon {
+  color: var(--color-info);
 }
 
-.warning .icon {
-  background-color: var(--color-warning);
+.notification.warning .icon {
+  color: var(--color-warning);
 }
 
 .notification .content {
@@ -486,10 +508,13 @@ input, select, textarea {
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-text-primary);
   margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .subtitle {
@@ -501,20 +526,29 @@ input, select, textarea {
 .controls {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .searchContainer {
   position: relative;
   flex: 1;
-  max-width: 400px;
+  max-width: 350px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
 }
 
 .searchInput {
   width: 100%;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  padding: 0.75rem 2.5rem 0.75rem 2.5rem;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   font-size: 0.95rem;
@@ -537,7 +571,6 @@ input, select, textarea {
   background: none;
   border: none;
   color: var(--color-text-secondary);
-  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -549,50 +582,64 @@ input, select, textarea {
   color: var(--color-text-primary);
 }
 
-.sortContainer {
+.filtersContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.sortContainer, .positionFilterContainer {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.sortLabel {
-  font-size: 0.95rem;
+.sortLabel, .filterLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--color-text-secondary);
+  white-space: nowrap;
 }
 
-.sortSelect {
+.sortSelect, .filterSelect, .positionSelect {
   padding: 0.6rem 2.5rem 0.6rem 1rem;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   background-color: var(--color-surface);
   color: var(--color-text-primary);
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23607d8b' d='M8 10.5l4-4H4l4 4z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23616161' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
+  transition: all 0.2s ease;
 }
 
-.sortSelect:focus {
+.sortSelect:focus, .filterSelect:focus, .positionSelect:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
 .addPlayerContainer {
   display: flex;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .addPlayerInput {
   flex: 1;
+  min-width: 200px;
   padding: 0.85rem 1.25rem;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   font-size: 0.95rem;
   color: var(--color-text-primary);
   background-color: var(--color-surface);
+  transition: all 0.2s ease;
 }
 
 .addPlayerInput:focus {
@@ -601,8 +648,13 @@ input, select, textarea {
   box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
+.positionSelect {
+  padding: 0.85rem 2.5rem 0.85rem 1.25rem;
+  max-width: 150px;
+}
+
 .addPlayerButton {
-  padding: 0.85rem 1.75rem;
+  padding: 0 1.5rem;
   background-color: var(--color-primary);
   color: white;
   border: none;
@@ -612,10 +664,13 @@ input, select, textarea {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .addPlayerButton:hover {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-secondary);
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
@@ -630,16 +685,17 @@ input, select, textarea {
 /* Updated Player Card Styles */
 .playersList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.25rem;
 }
 
 .playerCard {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
+  gap: 1rem;
+  padding: 1.25rem;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -648,32 +704,21 @@ input, select, textarea {
   overflow: hidden;
 }
 
-.playerCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(247, 250, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
-  z-index: 0;
-}
-
 .playerCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .playerCard.assigned {
-  border-left-color: #435B75;
+  border-left-color: #555555;
 }
 
 .playerCard.assigned:has(.teamBlack) {
-  border-left-color: #263238;
+  border-left-color: var(--color-team-black);
 }
 
 .playerCard.assigned:has(.teamWhite) {
-  border-left-color: #eceff1;
+  border-left-color: var(--color-team-white);
 }
 
 .playerInfo {
@@ -681,19 +726,21 @@ input, select, textarea {
   z-index: 1;
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
 }
 
 .nameContainer {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .playerName {
   margin: 0;
   font-size: 1.15rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #000000;
   letter-spacing: 0.25px;
 }
 
@@ -705,16 +752,47 @@ input, select, textarea {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .teamBlack {
-  background-color: #263238;
+  background-color: var(--color-team-black);
   color: white;
 }
 
 .teamWhite {
-  background-color: #eceff1;
-  color: #263238;
+  background-color: var(--color-team-white);
+  color: var(--color-team-black);
+}
+
+.positionContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.position-icon {
+  margin-right: 0.25rem;
+}
+
+.forward-icon {
+  color: var(--color-forward);
+}
+
+.defense-icon {
+  color: var(--color-defense);
+}
+
+.goalie-icon {
+  color: var(--color-goalie);
+}
+
+.positionLabel {
+  font-weight: 500;
 }
 
 .playerActions {
@@ -724,9 +802,11 @@ input, select, textarea {
   gap: 0.5rem;
   opacity: 1;
   transition: all 0.2s ease;
+  flex-wrap: wrap;
 }
 
 .actionButton {
+  flex: 1;
   padding: 0.5rem 0.75rem;
   border: none;
   border-radius: 6px;
@@ -735,69 +815,54 @@ input, select, textarea {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .teamBlackBtn {
-  background-color: #263238;
+  background-color: var(--color-team-black);
   color: white;
 }
 
 .teamBlackBtn:hover {
-  background-color: #000a12;
+  background-color: var(--color-secondary);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .teamWhiteBtn {
-  background-color: #eceff1;
-  color: #263238;
+  background-color: var(--color-team-white);
+  color: var(--color-team-black);
 }
 
 .teamWhiteBtn:hover {
-  background-color: #cfd8dc;
+  background-color: var(--color-team-white-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .removeTeamBtn {
-  background-color: #ff9800;
+  background-color: var(--color-warning);
   color: white;
 }
 
 .removeTeamBtn:hover {
-  background-color: #f57c00;
+  background-color: var(--color-warning-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .deleteBtn {
-  background-color: #f44336;
+  background-color: var(--color-error);
   color: white;
 }
 
 .deleteBtn:hover {
-  background-color: #d32f2f;
+  background-color: var(--color-error-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-@media (max-width: 768px) {
-  .playerCard {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .playerActions {
-    width: 100%;
-    opacity: 1;
-    flex-wrap: wrap;
-  }
-  
-  .actionButton {
-    flex: 1;
-    text-align: center;
-  }
 }
 
 .emptyState {
@@ -811,6 +876,13 @@ input, select, textarea {
   border-radius: var(--radius-lg);
   text-align: center;
   grid-column: 1 / -1;
+  gap: 1rem;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  color: var(--color-border);
+  margin-bottom: 1rem;
 }
 
 .emptyTitle {
@@ -837,8 +909,9 @@ input, select, textarea {
     max-width: none;
   }
   
-  .sortContainer {
-    align-self: flex-end;
+  .filtersContainer {
+    width: 100%;
+    justify-content: space-between;
   }
   
   .playerCard {
@@ -880,11 +953,14 @@ input, select, textarea {
   background-color: transparent;
   padding: 0;
   border: none;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .teamsView .actions {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .actionButton {
@@ -912,7 +988,7 @@ input, select, textarea {
 }
 
 .distributeButton:hover:not(:disabled) {
-  background-color: var(--color-secondary-dark);
+  background-color: var(--color-primary);
 }
 
 .saveButton {
@@ -929,6 +1005,7 @@ input, select, textarea {
   cursor: not-allowed;
   opacity: 0.7;
   box-shadow: none;
+  transform: none;
 }
 
 .stats {
@@ -953,10 +1030,16 @@ input, select, textarea {
   box-shadow: var(--shadow-md);
 }
 
-.statValue {
-  font-size: 2rem;
-  font-weight: 700;
+.statIcon {
+  font-size: 1.75rem;
   color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.statValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -967,40 +1050,11 @@ input, select, textarea {
   font-weight: 500;
 }
 
-.progressContainer {
-  width: 100%;
-  height: 1.5rem;
-  background-color: var(--color-surface-variant);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 0.5rem;
-}
-
-.progressBar {
-  height: 100%;
-  background-color: var(--color-primary);
-  transition: width 0.75s ease;
-}
-
-.progressText {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: white;
-}
-
 .teamsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .teamRoster {
@@ -1008,9 +1062,10 @@ input, select, textarea {
   flex-direction: column;
   background-color: var(--color-surface);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow: visible;
   box-shadow: var(--shadow-md);
   transition: all 0.25s ease;
+  height: auto;
 }
 
 .teamRoster:hover {
@@ -1029,6 +1084,9 @@ input, select, textarea {
 
 .teamHeader {
   padding: 1.25rem 1.75rem;
+}
+
+.teamTitleContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1038,50 +1096,94 @@ input, select, textarea {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .playerCount {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   padding: 0.35rem 0.75rem;
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.teamWhite .playerCount {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .teamPlayersList {
-  padding: 1.25rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  min-height: 250px;
-  max-height: 450px;
-  overflow-y: auto;
+  min-height: auto;
+  max-height: none;
+  overflow-y: visible;
+}
+
+.positionSection {
+  margin-bottom: 1rem;
+}
+
+.positionHeader {
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-surface-variant);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.positionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.positionCount {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-lg);
+}
+
+.positionPlayers {
+  padding: 0.5rem 0;
 }
 
 .teamPlayer {
   display: flex;
   align-items: center;
-  padding: 1rem;
-  background-color: var(--color-surface-variant);
-  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
   transition: all 0.2s ease;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.teamPlayer:last-child {
+  border-bottom: none;
 }
 
 .teamPlayer:hover {
-  transform: translateX(4px);
   background-color: var(--color-hover);
 }
 
 .playerIndex {
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-primary);
+  background-color: var(--color-secondary);
   color: white;
   border-radius: 50%;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
   margin-right: 1rem;
 }
@@ -1097,7 +1199,6 @@ input, select, textarea {
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 0.9rem;
   transition: all 0.25s ease;
   margin-left: auto;
 }
@@ -1105,13 +1206,21 @@ input, select, textarea {
 .removeButton:hover {
   background-color: var(--color-error);
   color: white;
-  transform: rotate(90deg);
 }
 
 .emptyTeam {
   padding: 3rem 2rem;
   text-align: center;
   color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.emptyTeamIcon {
+  font-size: 3rem;
+  color: var(--color-border);
 }
 
 .emptyTeamSubtext {
@@ -1131,6 +1240,13 @@ input, select, textarea {
   border-bottom: 2px solid var(--color-border);
   color: var(--color-text-primary);
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.unassignedPositionSection {
+  margin-bottom: 2rem;
 }
 
 .unassignedList {
@@ -1174,6 +1290,10 @@ input, select, textarea {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .teamButton:hover {
@@ -1186,7 +1306,7 @@ input, select, textarea {
 }
 
 .teamBlackBtn:hover {
-  background-color: var(--color-team-black-dark);
+  background-color: var(--color-secondary);
 }
 
 .teamWhiteBtn {
@@ -1270,40 +1390,9 @@ input, select, textarea {
   border-bottom: 2px solid var(--color-border);
   color: var(--color-text-primary);
   font-weight: 600;
-}
-
-.summaryGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
-}
-
-.summaryItem {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 1.25rem;
-  background-color: var(--color-surface-variant);
-  border-radius: var(--radius-lg);
-  transition: all 0.25s ease;
-}
-
-.summaryItem:hover {
-  transform: translateY(-3px);
-  background-color: var(--color-hover);
-}
-
-.summaryValue {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-primary);
-}
-
-.summaryLabel {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  margin-top: 0.5rem;
-  font-weight: 500;
+  gap: 0.75rem;
 }
 
 .settingItem {
@@ -1342,7 +1431,7 @@ input, select, textarea {
 }
 
 .exportButton:hover:not(:disabled) {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-secondary);
 }
 
 .resetButton {
@@ -1351,7 +1440,7 @@ input, select, textarea {
 }
 
 .resetButton:hover {
-  background-color: var(--color-error-light);
+  background-color: #f5e6e6;
   color: var(--color-error);
 }
 
@@ -1369,12 +1458,93 @@ input, select, textarea {
   color: var(--color-text-secondary);
   margin-top: 1rem;
   line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggleTrack {
+  display: block;
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background-color: var(--color-border);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.themeToggle.active .toggleTrack {
+  background-color: var(--color-primary);
+}
+
+.toggleKnob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: var(--color-warning);
+  font-size: 0.85rem;
+}
+
+.themeToggle.active .toggleKnob {
+  left: calc(100% - 22px);
+  color: var(--color-primary-dark);
 }
 
 .aboutContent {
   font-size: 0.95rem;
   color: var(--color-text-primary);
   line-height: 1.7;
+}
+
+.versionInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: var(--color-surface-variant);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+}
+
+.versionLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+.versionValue {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.developerInfo {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .aboutContent p {
@@ -1389,8 +1559,17 @@ input, select, textarea {
   .settingsGrid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
   
-  .summaryGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  --color-surface: #1e1e1e;
+  --color-surface-variant: #2d2d2d;
+  --color-hover: #3d3d3d;
+  --color-border: #444444;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #aaaaaa;
 }

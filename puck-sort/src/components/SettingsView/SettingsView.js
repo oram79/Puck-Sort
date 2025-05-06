@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import { useTeamContext } from '../../context/TeamContext';
-import { useTheme } from '../../context/ThemeContext';
 
 const SettingsView = () => {
   const { showNotification, players, team1, team2 } = useTeamContext();
   
   const [showConfirmReset, setShowConfirmReset] = useState(false);
-  
-  // Calculate stats for the summary section
-  const totalTeams = 2;
-  const totalPlayers = players.length;
-  const assignedPlayers = team1.length + team2.length;
   
   // Handle reset all data
   const handleResetData = () => {
@@ -66,7 +60,9 @@ const SettingsView = () => {
   return (
     <div className="settingsView">
       <div className="header">
-        <h1 className="title">Settings</h1>
+        <h1 className="title">
+          <i className="fas fa-cogs"></i> Settings
+        </h1>
         <p className="subtitle">
           Manage application preferences and data
         </p>
@@ -74,62 +70,58 @@ const SettingsView = () => {
       
       <div className="settingsGrid">
         <div className="settingsCard">
-          <h2 className="cardTitle">Application Summary</h2>
-          <div className="summaryGrid">
-            <div className="summaryItem">
-              <span className="summaryValue">{totalTeams}</span>
-              <span className="summaryLabel">Teams</span>
-            </div>
-            <div className="summaryItem">
-              <span className="summaryValue">{totalPlayers}</span>
-              <span className="summaryLabel">Players</span>
-            </div>
-            <div className="summaryItem">
-              <span className="summaryValue">{assignedPlayers}</span>
-              <span className="summaryLabel">Assigned</span>
-            </div>
-            <div className="summaryItem">
-              <span className="summaryValue">{totalPlayers - assignedPlayers}</span>
-              <span className="summaryLabel">Unassigned</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="settingsCard">
-          <h2 className="cardTitle">Data Management</h2>
+          <h2 className="cardTitle">
+            <i className="fas fa-database"></i> Data Management
+          </h2>
           <div className="settingActions">
             <button 
-              className={`actionButton exportButton`}
+              className="actionButton exportButton"
               onClick={handleExportData}
               disabled={players.length === 0}
             >
-              Export Data (JSON)
+              <i className="fas fa-file-export"></i> Export Data (JSON)
             </button>
             <button 
               className={`actionButton resetButton ${showConfirmReset ? 'confirmReset' : ''}`}
               onClick={handleResetData}
             >
-              {showConfirmReset ? 'Click again to confirm' : 'Reset All Data'}
+              {showConfirmReset ? (
+                <>
+                  <i className="fas fa-exclamation-triangle"></i> Click again to confirm
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-trash-alt"></i> Reset All Data
+                </>
+              )}
             </button>
           </div>
           <p className="resetNote">
-            Resetting will clear all player data and team assignments. This action cannot be undone.
+            <i className="fas fa-info-circle"></i> Resetting will clear all player data and team assignments. This action cannot be undone.
           </p>
         </div>
         
         <div className="settingsCard">
-          <h2 className="cardTitle">About PuckSort</h2>
+          <h2 className="cardTitle">
+            <i className="fas fa-info-circle"></i> About PuckSort
+          </h2>
           <div className="aboutContent">
-            <p>
-              <strong>Version:</strong> 1.0.0
-            </p>
+            <div className="versionInfo">
+              <div className="versionLabel">
+                <i className="fas fa-code-branch"></i> Version
+              </div>
+              <div className="versionValue">1.0.1</div>
+            </div>
             <p>
               PuckSort is a professional team management system designed specifically for ball hockey leagues. 
               It allows you to easily manage your player roster and organize teams.
             </p>
             <p>
-              Built with React and modern web technologies.
+              <i className="fas fa-tools"></i> Built with React and modern web technologies.
             </p>
+            <div className="developerInfo">
+              <i className="fas fa-code"></i> Developed by <strong>Logan Oram</strong>
+            </div>
           </div>
         </div>
       </div>

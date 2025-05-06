@@ -6,20 +6,29 @@ const TeamContext = createContext();
 // Custom hook to use the team context
 export const useTeamContext = () => useContext(TeamContext);
 
+// Player positions
+export const POSITIONS = {
+  FORWARD: 'Forward',
+  DEFENSE: 'Defense',
+  GOALIE: 'Goalie'
+};
+
 // Provider component
 export const TeamProvider = ({ children }) => {
   // State for players and teams
   const [players, setPlayers] = useState([]);
   const [newPlayer, setNewPlayer] = useState('');
+  const [newPlayerPosition, setNewPlayerPosition] = useState(POSITIONS.FORWARD);
   const [team1, setTeam1] = useState([]); // Team Black
   const [team2, setTeam2] = useState([]); // Team White
   const [notification, setNotification] = useState({ message: '', type: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('roster'); // 'roster', 'teams', 'settings'
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortOption, setSortOption] = useState('name-asc'); // 'name-asc', 'name-desc', 'date-asc', 'date-desc'
+  const [sortOption, setSortOption] = useState('name-asc'); // 'name-asc', 'name-desc', 'date-asc', 'date-desc', 'position'
+  const [positionFilter, setPositionFilter] = useState('all'); // 'all', 'forward', 'defense', 'goalie'
 
-  // Show notification message - MOVED THIS UP before it's used
+  // Show notification message
   const showNotification = useCallback((message, type = 'success') => {
     setNotification({ message, type });
     
@@ -95,6 +104,7 @@ export const TeamProvider = ({ children }) => {
     const playerObj = {
       id: Date.now().toString(),
       name: newPlayer.trim(),
+      position: newPlayerPosition,
       createdAt: new Date().toISOString(),
       stats: {
         gamesPlayed: 0,
@@ -105,8 +115,8 @@ export const TeamProvider = ({ children }) => {
     
     setPlayers(prev => [...prev, playerObj]);
     setNewPlayer('');
-    showNotification('Player added successfully');
-  }, [newPlayer, players, showNotification]);
+    showNotification(`${playerObj.name} added as ${playerObj.position}`);
+  }, [newPlayer, newPlayerPosition, players, showNotification]);
 
   // Handle removing a player
   const handleRemovePlayer = useCallback((id) => {
@@ -142,27 +152,57 @@ export const TeamProvider = ({ children }) => {
     showNotification(`${player.name} removed from team`);
   }, [showNotification]);
 
+  // Get players grouped by position
+  const getPlayersByPosition = useCallback((teamArray) => {
+    const grouped = {
+      [POSITIONS.FORWARD]: teamArray.filter(p => p.position === POSITIONS.FORWARD),
+      [POSITIONS.DEFENSE]: teamArray.filter(p => p.position === POSITIONS.DEFENSE),
+      [POSITIONS.GOALIE]: teamArray.filter(p => p.position === POSITIONS.GOALIE),
+    };
+    
+    return grouped;
+  }, []);
+
   // Auto-distribute players into balanced teams
   const autoDistributeTeams = useCallback(() => {
     setIsLoading(true);
     
     setTimeout(() => {
       try {
-        // Make a copy of players to shuffle
-        const shuffledPlayers = [...players];
+        // Distribute by position to maintain balance
+        const forwards = players.filter(p => p.position === POSITIONS.FORWARD);
+        const defense = players.filter(p => p.position === POSITIONS.DEFENSE);
+        const goalies = players.filter(p => p.position === POSITIONS.GOALIE);
         
-        // Fisher-Yates shuffle algorithm
-        for (let i = shuffledPlayers.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffledPlayers[i], shuffledPlayers[j]] = [shuffledPlayers[j], shuffledPlayers[i]];
-        }
+        // Shuffle each position group
+        const shuffleArray = (array) => {
+          const shuffled = [...array];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          return shuffled;
+        };
         
-        // Split into two teams
-        const middle = Math.ceil(shuffledPlayers.length / 2);
-        setTeam1(shuffledPlayers.slice(0, middle));
-        setTeam2(shuffledPlayers.slice(middle));
+        const shuffledForwards = shuffleArray(forwards);
+        const shuffledDefense = shuffleArray(defense);
+        const shuffledGoalies = shuffleArray(goalies);
         
-        showNotification('Teams auto-distributed successfully');
+        // Split by position
+        const forwardsTeam1 = shuffledForwards.filter((_, i) => i % 2 === 0);
+        const forwardsTeam2 = shuffledForwards.filter((_, i) => i % 2 === 1);
+        
+        const defenseTeam1 = shuffledDefense.filter((_, i) => i % 2 === 0);
+        const defenseTeam2 = shuffledDefense.filter((_, i) => i % 2 === 1);
+        
+        const goaliesTeam1 = shuffledGoalies.filter((_, i) => i % 2 === 0);
+        const goaliesTeam2 = shuffledGoalies.filter((_, i) => i % 2 === 1);
+        
+        // Combine all positions
+        setTeam1([...forwardsTeam1, ...defenseTeam1, ...goaliesTeam1]);
+        setTeam2([...forwardsTeam2, ...defenseTeam2, ...goaliesTeam2]);
+        
+        showNotification('Teams auto-distributed by position');
       } catch (error) {
         console.error('Error auto-distributing teams:', error);
         showNotification('Error auto-distributing teams', 'error');
@@ -179,15 +219,63 @@ export const TeamProvider = ({ children }) => {
       const date = new Date().toLocaleDateString();
       let teamRoster = `PUCKSORT TEAM ROSTER - ${date}\n\n`;
       
-      teamRoster += "TEAM BLACK:\n";
-      team1.forEach((player, index) => {
-        teamRoster += `${index + 1}. ${player.name}\n`;
-      });
+      // Process Team Black by position
+      const team1ByPosition = getPlayersByPosition(team1);
       
-      teamRoster += "\nTEAM WHITE:\n";
-      team2.forEach((player, index) => {
-        teamRoster += `${index + 1}. ${player.name}\n`;
-      });
+      teamRoster += "TEAM BLACK:\n";
+      
+      if (team1ByPosition[POSITIONS.FORWARD].length > 0) {
+        teamRoster += "FORWARDS:\n";
+        team1ByPosition[POSITIONS.FORWARD].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
+      
+      if (team1ByPosition[POSITIONS.DEFENSE].length > 0) {
+        teamRoster += "DEFENSE:\n";
+        team1ByPosition[POSITIONS.DEFENSE].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
+      
+      if (team1ByPosition[POSITIONS.GOALIE].length > 0) {
+        teamRoster += "GOALIES:\n";
+        team1ByPosition[POSITIONS.GOALIE].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
+      
+      // Process Team White by position
+      const team2ByPosition = getPlayersByPosition(team2);
+      
+      teamRoster += "TEAM WHITE:\n";
+      
+      if (team2ByPosition[POSITIONS.FORWARD].length > 0) {
+        teamRoster += "FORWARDS:\n";
+        team2ByPosition[POSITIONS.FORWARD].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
+      
+      if (team2ByPosition[POSITIONS.DEFENSE].length > 0) {
+        teamRoster += "DEFENSE:\n";
+        team2ByPosition[POSITIONS.DEFENSE].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
+      
+      if (team2ByPosition[POSITIONS.GOALIE].length > 0) {
+        teamRoster += "GOALIES:\n";
+        team2ByPosition[POSITIONS.GOALIE].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
       
       // Create unassigned players list if any
       const unassignedPlayers = players.filter(
@@ -195,10 +283,32 @@ export const TeamProvider = ({ children }) => {
       );
       
       if (unassignedPlayers.length > 0) {
-        teamRoster += "\nUNASSIGNED PLAYERS:\n";
-        unassignedPlayers.forEach((player, index) => {
-          teamRoster += `${index + 1}. ${player.name}\n`;
-        });
+        const unassignedByPosition = getPlayersByPosition(unassignedPlayers);
+        
+        teamRoster += "UNASSIGNED PLAYERS:\n";
+        
+        if (unassignedByPosition[POSITIONS.FORWARD].length > 0) {
+          teamRoster += "FORWARDS:\n";
+          unassignedByPosition[POSITIONS.FORWARD].forEach((player, index) => {
+            teamRoster += `${index + 1}. ${player.name}\n`;
+          });
+          teamRoster += "\n";
+        }
+        
+        if (unassignedByPosition[POSITIONS.DEFENSE].length > 0) {
+          teamRoster += "DEFENSE:\n";
+          unassignedByPosition[POSITIONS.DEFENSE].forEach((player, index) => {
+            teamRoster += `${index + 1}. ${player.name}\n`;
+          });
+          teamRoster += "\n";
+        }
+        
+        if (unassignedByPosition[POSITIONS.GOALIE].length > 0) {
+          teamRoster += "GOALIES:\n";
+          unassignedByPosition[POSITIONS.GOALIE].forEach((player, index) => {
+            teamRoster += `${index + 1}. ${player.name}\n`;
+          });
+        }
       }
       
       // Create and download the file
@@ -217,16 +327,24 @@ export const TeamProvider = ({ children }) => {
       console.error('Error saving teams to file:', error);
       showNotification('Error saving team lists', 'error');
     }
-  }, [team1, team2, players, showNotification]);
+  }, [team1, team2, players, getPlayersByPosition, showNotification]);
 
   // Get filtered and sorted players
   const getFilteredPlayers = useCallback(() => {
-    // Filter players based on search term
-    const filtered = searchTerm
-      ? players.filter(player => 
-          player.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      : [...players];
+    // Filter players based on search term and position filter
+    let filtered = [...players];
+    
+    if (searchTerm) {
+      filtered = filtered.filter(player => 
+        player.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    if (positionFilter !== 'all') {
+      filtered = filtered.filter(player => 
+        player.position.toLowerCase() === positionFilter
+      );
+    }
     
     // Sort players based on sort option
     switch (sortOption) {
@@ -238,15 +356,22 @@ export const TeamProvider = ({ children }) => {
         return filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       case 'date-desc':
         return filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      case 'position':
+        // Sort by position: Goalies first, then Defense, then Forwards
+        return filtered.sort((a, b) => {
+          const positions = [POSITIONS.GOALIE, POSITIONS.DEFENSE, POSITIONS.FORWARD];
+          return positions.indexOf(a.position) - positions.indexOf(b.position);
+        });
       default:
         return filtered;
     }
-  }, [players, searchTerm, sortOption]);
+  }, [players, searchTerm, positionFilter, sortOption]);
 
   // Value to be provided to consumers
   const contextValue = {
     players,
     newPlayer,
+    newPlayerPosition,
     team1,
     team2,
     notification,
@@ -254,7 +379,10 @@ export const TeamProvider = ({ children }) => {
     activeTab,
     searchTerm,
     sortOption,
+    positionFilter,
+    POSITIONS,
     setNewPlayer,
+    setNewPlayerPosition,
     handleAddPlayer,
     handleRemovePlayer,
     addToTeam1,
@@ -266,7 +394,9 @@ export const TeamProvider = ({ children }) => {
     setActiveTab,
     setSearchTerm,
     setSortOption,
-    getFilteredPlayers
+    setPositionFilter,
+    getFilteredPlayers,
+    getPlayersByPosition
   };
 
   return (

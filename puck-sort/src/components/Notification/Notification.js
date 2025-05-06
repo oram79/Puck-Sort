@@ -38,15 +38,15 @@ const Notification = ({ message, type = 'success' }) => {
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return '✓';
+        return <i className="fas fa-check-circle"></i>;
       case 'error':
-        return '!';
+        return <i className="fas fa-exclamation-circle"></i>;
       case 'info':
-        return 'i';
+        return <i className="fas fa-info-circle"></i>;
       case 'warning':
-        return '⚠';
+        return <i className="fas fa-exclamation-triangle"></i>;
       default:
-        return '✓';
+        return <i className="fas fa-check-circle"></i>;
     }
   };
 
@@ -69,7 +69,7 @@ const Notification = ({ message, type = 'success' }) => {
         onClick={() => setIsVisible(false)}
         aria-label="Close notification"
       >
-        ×
+        <i className="fas fa-times"></i>
       </button>
     </div>
   );

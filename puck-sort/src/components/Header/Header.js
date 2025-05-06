@@ -8,7 +8,7 @@ const Header = () => {
     <header className="header">
       <div className="logoContainer">
         <div className="logo">
-          <span className="iconHockey">🏒</span>
+          <i className="fas fa-hockey-puck logoIcon"></i>
           <span className="appName">PuckSort</span>
         </div>
         <div className="tagline">Team Management System</div>
@@ -19,18 +19,21 @@ const Header = () => {
           className={`navButton ${activeTab === 'roster' ? 'active' : ''}`}
           onClick={() => setActiveTab('roster')}
         >
+          <i className="fas fa-users navIcon"></i>
           Roster
         </button>
         <button
           className={`navButton ${activeTab === 'teams' ? 'active' : ''}`}
           onClick={() => setActiveTab('teams')}
         >
+          <i className="fas fa-users-cog navIcon"></i>
           Teams
         </button>
         <button
           className={`navButton ${activeTab === 'settings' ? 'active' : ''}`}
           onClick={() => setActiveTab('settings')}
         >
+          <i className="fas fa-cog navIcon"></i>
           Settings
         </button>
       </nav>

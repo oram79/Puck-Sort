@@ -18,6 +18,20 @@ const PlayerCard = ({ player }) => {
   const isInTeam2 = team2.some(p => p.id === player.id);
   const isAssigned = isInTeam1 || isInTeam2;
 
+  // Get position icon
+  const getPositionIcon = (position) => {
+    switch (position) {
+      case 'Forward':
+        return <i className="fas fa-hockey-puck position-icon forward-icon"></i>;
+      case 'Defense':
+        return <i className="fas fa-shield-alt position-icon defense-icon"></i>;
+      case 'Goalie':
+        return <i className="fas fa-mask position-icon goalie-icon"></i>;
+      default:
+        return <i className="fas fa-hockey-puck position-icon"></i>;
+    }
+  };
+
   return (
     <div 
       className={`playerCard ${isAssigned ? 'assigned' : ''}`}
@@ -35,6 +49,10 @@ const PlayerCard = ({ player }) => {
             </div>
           )}
         </div>
+        <div className="positionContainer">
+          {getPositionIcon(player.position)}
+          <span className="positionLabel">{player.position}</span>
+        </div>
       </div>
 
       <div className="playerActions">
@@ -45,14 +63,14 @@ const PlayerCard = ({ player }) => {
               className={`actionButton teamBlackBtn`}
               aria-label="Add to Team Black"
             >
-              Team Black
+              <i className="fas fa-user-plus"></i> Team Black
             </button>
             <button 
               onClick={() => addToTeam2(player)}
               className={`actionButton teamWhiteBtn`}
               aria-label="Add to Team White"
             >
-              Team White
+              <i className="fas fa-user-plus"></i> Team White
             </button>
           </>
         ) : (
@@ -61,7 +79,7 @@ const PlayerCard = ({ player }) => {
             className={`actionButton removeTeamBtn`}
             aria-label="Remove from team"
           >
-            Remove
+            <i className="fas fa-user-minus"></i> Remove
           </button>
         )}
         <button 
@@ -69,7 +87,7 @@ const PlayerCard = ({ player }) => {
           className={`actionButton deleteBtn`}
           aria-label="Delete player"
         >
-          Delete
+          <i className="fas fa-trash-alt"></i> Delete
         </button>
       </div>
     </div>

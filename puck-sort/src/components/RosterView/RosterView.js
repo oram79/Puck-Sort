@@ -5,13 +5,18 @@ import PlayerCard from './PlayerCard';
 const RosterView = () => {
   const { 
     newPlayer, 
-    setNewPlayer, 
+    setNewPlayer,
+    newPlayerPosition,
+    setNewPlayerPosition,
     handleAddPlayer, 
     searchTerm,
     setSearchTerm,
     sortOption,
     setSortOption,
-    getFilteredPlayers
+    positionFilter,
+    setPositionFilter,
+    getFilteredPlayers,
+    POSITIONS
   } = useTeamContext();
 
   const filteredPlayers = getFilteredPlayers();
@@ -33,6 +38,7 @@ const RosterView = () => {
 
       <div className="controls">
         <div className="searchContainer">
+          <i className="fas fa-search search-icon"></i>
           <input 
             type="text"
             placeholder="Search players..."
@@ -46,24 +52,42 @@ const RosterView = () => {
               onClick={() => setSearchTerm('')}
               aria-label="Clear search"
             >
-              ×
+              <i className="fas fa-times"></i>
             </button>
           )}
         </div>
 
-        <div className="sortContainer">
-          <label htmlFor="sort" className="sortLabel">Sort by:</label>
-          <select
-            id="sort"
-            className="sortSelect"
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="date-asc">Date Added (Oldest)</option>
-            <option value="date-desc">Date Added (Newest)</option>
-          </select>
+        <div className="filtersContainer">
+          <div className="sortContainer">
+            <label htmlFor="sort" className="sortLabel">Sort by:</label>
+            <select
+              id="sort"
+              className="sortSelect"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="name-desc">Name (Z-A)</option>
+              <option value="date-asc">Date Added (Oldest)</option>
+              <option value="date-desc">Date Added (Newest)</option>
+              <option value="position">Position</option>
+            </select>
+          </div>
+
+          <div className="positionFilterContainer">
+            <label htmlFor="position-filter" className="filterLabel">Position:</label>
+            <select
+              id="position-filter"
+              className="filterSelect"
+              value={positionFilter}
+              onChange={(e) => setPositionFilter(e.target.value)}
+            >
+              <option value="all">All Positions</option>
+              <option value="forward">Forwards</option>
+              <option value="defense">Defense</option>
+              <option value="goalie">Goalies</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -76,12 +100,21 @@ const RosterView = () => {
           onKeyDown={handleKeyDown}
           className="addPlayerInput"
         />
+        <select
+          className="positionSelect"
+          value={newPlayerPosition}
+          onChange={(e) => setNewPlayerPosition(e.target.value)}
+        >
+          <option value={POSITIONS.FORWARD}>Forward</option>
+          <option value={POSITIONS.DEFENSE}>Defense</option>
+          <option value={POSITIONS.GOALIE}>Goalie</option>
+        </select>
         <button 
           onClick={handleAddPlayer}
           className="addPlayerButton"
           disabled={!newPlayer.trim()}
         >
-          Add Player
+          <i className="fas fa-plus"></i> Add Player
         </button>
       </div>
 
@@ -92,10 +125,11 @@ const RosterView = () => {
           ))
         ) : (
           <div className="emptyState">
-            {searchTerm ? (
+            <i className="fas fa-user-slash emptyIcon"></i>
+            {searchTerm || positionFilter !== 'all' ? (
               <>
                 <p className="emptyTitle">No players found</p>
-                <p className="emptyDesc">Try a different search term</p>
+                <p className="emptyDesc">Try different search terms or filters</p>
               </>
             ) : (
               <>

@@ -5,8 +5,7 @@ const SettingsView = () => {
   const { showNotification, players, team1, team2 } = useTeamContext();
   
   const [showConfirmReset, setShowConfirmReset] = useState(false);
-  
-  // Handle reset all data
+
   const handleResetData = () => {
     if (showConfirmReset) {
       // Clear localStorage
@@ -14,12 +13,10 @@ const SettingsView = () => {
       localStorage.removeItem('puckSortTeam1');
       localStorage.removeItem('puckSortTeam2');
       
-      // Reload the page to reset application state
       window.location.reload();
     } else {
       setShowConfirmReset(true);
       
-      // Auto-hide confirmation after 5 seconds
       setTimeout(() => {
         setShowConfirmReset(false);
       }, 5000);
@@ -97,7 +94,7 @@ const SettingsView = () => {
             </button>
           </div>
           <p className="resetNote">
-            <i className="fas fa-info-circle"></i> Resetting or refreshing the page will clear all player data and team assignments. This action cannot be undone.
+            <i className="fas fa-info-circle"></i> Resetting data will clear all player data and team assignments. This action cannot be undone.
           </p>
         </div>
         
@@ -110,14 +107,14 @@ const SettingsView = () => {
               <div className="versionLabel">
                 <i className="fas fa-code-branch"></i> Version
               </div>
-              <div className="versionValue">1.0.1</div>
+              <div className="versionValue">1.0.2</div>
             </div>
             <p>
-              PuckSort is a professional team management system designed specifically for ball hockey leagues. 
+              PuckSort is a team management system designed specifically for recreational hockey leagues. 
               It allows you to easily manage your player roster and organize teams.
             </p>
             <p>
-              <i className="fas fa-tools"></i> Built with React and modern web technologies.
+              <i className="fas fa-tools"></i> Built with React and modern web technologies
             </p>
             <div className="developerInfo">
               <i className="fas fa-code"></i> Developed by <strong>Logan Oram</strong>

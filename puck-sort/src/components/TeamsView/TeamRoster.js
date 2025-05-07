@@ -3,11 +3,8 @@ import { useTeamContext } from '../../context/TeamContext';
 
 const TeamRoster = ({ team, teamName, teamColor }) => {
   const { removeFromTeams, getPlayersByPosition, POSITIONS } = useTeamContext();
-  
-  // Group players by position
   const playersByPosition = getPlayersByPosition(team);
 
-  // Get position icon
   const getPositionIcon = (position) => {
     switch (position) {
       case POSITIONS.FORWARD:

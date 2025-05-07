@@ -20,11 +20,10 @@ const TeamsView = () => {
   const unassignedPlayers = players.filter(
     player => !team1.some(p => p.id === player.id) && !team2.some(p => p.id === player.id)
   );
-
-  // Group unassigned players by position
+  
   const unassignedByPosition = getPlayersByPosition(unassignedPlayers);
 
-  // Calculate stats
+  // Sorting into teams by position 
   const totalPlayers = players.length;
   const assignedCount = team1.length + team2.length;
   const unassignedCount = unassignedPlayers.length;
@@ -32,12 +31,10 @@ const TeamsView = () => {
     ? Math.round((assignedCount / totalPlayers) * 100) 
     : 0;
     
-  // Count positions
   const totalForwards = players.filter(p => p.position === POSITIONS.FORWARD).length;
   const totalDefense = players.filter(p => p.position === POSITIONS.DEFENSE).length;
   const totalGoalies = players.filter(p => p.position === POSITIONS.GOALIE).length;
   
-  // Get position icon
   const getPositionIcon = (position) => {
     switch (position) {
       case POSITIONS.FORWARD:

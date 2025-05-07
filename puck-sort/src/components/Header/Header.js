@@ -11,7 +11,7 @@ const Header = () => {
           <i className="fas fa-hockey-puck logoIcon"></i>
           <span className="appName">PuckSort</span>
         </div>
-        <div className="tagline">Team Management System</div>
+        <div className="tagline"> Hockey Team Management System</div>
       </div>
       
       <nav className="navigation">

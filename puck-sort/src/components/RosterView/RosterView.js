@@ -32,7 +32,7 @@ const RosterView = () => {
       <div className="header">
         <h1 className="title">Player Roster</h1>
         <p className="subtitle">
-          Manage all players available for team assignment
+          Manage all players available
         </p>
       </div>
 

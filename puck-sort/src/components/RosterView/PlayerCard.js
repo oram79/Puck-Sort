@@ -18,7 +18,6 @@ const PlayerCard = ({ player }) => {
   const isInTeam2 = team2.some(p => p.id === player.id);
   const isAssigned = isInTeam1 || isInTeam2;
 
-  // Get position icon
   const getPositionIcon = (position) => {
     switch (position) {
       case 'Forward':

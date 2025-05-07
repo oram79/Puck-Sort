@@ -10,7 +10,7 @@ const Notification = ({ message, type = 'success' }) => {
     setProgress(100);
     
     // Start the progress timer
-    const duration = 3000; // 3 seconds
+    const duration = 2000; // 2 seconds
     const interval = 10; // Update every 10ms
     const step = (interval / duration) * 100;
     
@@ -26,7 +26,6 @@ const Notification = ({ message, type = 'success' }) => {
       });
     }, interval);
     
-    // Clean up
     return () => {
       clearInterval(timer);
     };
@@ -34,7 +33,6 @@ const Notification = ({ message, type = 'success' }) => {
   
   if (!isVisible || !message) return null;
   
-  // Get the appropriate icon based on type
   const getIcon = () => {
     switch (type) {
       case 'success':

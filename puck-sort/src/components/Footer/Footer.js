@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="content">
         <p className="copyright">
-          <i className="far fa-copyright"></i> {currentYear} PuckSort | Ball Hockey Team Management System
+          <i className="far fa-copyright"></i> {currentYear} PuckSort | Hockey Team Management System
         </p>
         <div className="links">
           <a href="#terms" className="link">

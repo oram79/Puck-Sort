@@ -107,7 +107,7 @@ const SettingsView = () => {
               <div className="versionLabel">
                 <i className="fas fa-code-branch"></i> Version
               </div>
-              <div className="versionValue">1.0.2</div>
+              <div className="versionValue">1.1.4</div>
             </div>
             <p>
               PuckSort is a team management system designed specifically for recreational hockey leagues. 

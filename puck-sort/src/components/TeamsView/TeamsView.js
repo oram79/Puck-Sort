@@ -86,22 +86,18 @@ const TeamsView = () => {
 
       <div className="stats">
         <div className="statCard">
-          <i className="fas fa-users statIcon"></i>
           <span className="statValue">{totalPlayers}</span>
           <span className="statLabel">Total Players</span>
         </div>
         <div className="statCard">
-          <i className="fas fa-hockey-puck statIcon"></i>
           <span className="statValue">{totalForwards}</span>
           <span className="statLabel">Forwards</span>
         </div>
         <div className="statCard">
-          <i className="fas fa-shield-alt statIcon"></i>
           <span className="statValue">{totalDefense}</span>
           <span className="statLabel">Defense</span>
         </div>
         <div className="statCard">
-          <i className="fas fa-mask statIcon"></i>
           <span className="statValue">{totalGoalies}</span>
           <span className="statLabel">Goalies</span>
         </div>

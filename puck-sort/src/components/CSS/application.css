@@ -33,6 +33,7 @@
   --color-forward: #444444;
   --color-defense: #666666;
   --color-goalie: #888888;
+  --color-spare: #999999;
   
   /* Text colors */
   --color-text-primary: #000000;
@@ -791,6 +792,10 @@ input, select, textarea {
   color: var(--color-goalie);
 }
 
+.spare-icon {
+  color: var(--color-spare);
+}
+
 .positionLabel {
   font-weight: 500;
 }
@@ -1010,7 +1015,7 @@ input, select, textarea {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.5rem;
 }
 

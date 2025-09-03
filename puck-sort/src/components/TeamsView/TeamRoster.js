@@ -13,6 +13,8 @@ const TeamRoster = ({ team, teamName, teamColor }) => {
         return <i className="fas fa-shield-alt position-icon defense-icon"></i>;
       case POSITIONS.GOALIE:
         return <i className="fas fa-mask position-icon goalie-icon"></i>;
+      case POSITIONS.SPARE:
+        return <i className="fas fa-user-plus position-icon spare-icon"></i>;
       default:
         return <i className="fas fa-hockey-puck position-icon"></i>;
     }
@@ -63,6 +65,7 @@ const TeamRoster = ({ team, teamName, teamColor }) => {
           {renderPositionSection(POSITIONS.GOALIE, playersByPosition[POSITIONS.GOALIE])}
           {renderPositionSection(POSITIONS.DEFENSE, playersByPosition[POSITIONS.DEFENSE])}
           {renderPositionSection(POSITIONS.FORWARD, playersByPosition[POSITIONS.FORWARD])}
+          {renderPositionSection(POSITIONS.SPARE, playersByPosition[POSITIONS.SPARE])}
         </div>
       ) : (
         <div className="emptyTeam">

@@ -10,7 +10,8 @@ export const useTeamContext = () => useContext(TeamContext);
 export const POSITIONS = {
   FORWARD: 'Forward',
   DEFENSE: 'Defense',
-  GOALIE: 'Goalie'
+  GOALIE: 'Goalie',
+  SPARE: 'Spare'
 };
 
 // Provider component
@@ -26,7 +27,7 @@ export const TeamProvider = ({ children }) => {
   const [activeTab, setActiveTab] = useState('roster'); // 'roster', 'teams', 'settings'
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('name-asc'); // 'name-asc', 'name-desc', 'date-asc', 'date-desc', 'position'
-  const [positionFilter, setPositionFilter] = useState('all'); // 'all', 'forward', 'defense', 'goalie'
+  const [positionFilter, setPositionFilter] = useState('all'); // 'all', 'forward', 'defense', 'goalie', 'spare'
 
   // Show notification message
   const showNotification = useCallback((message, type = 'success') => {
@@ -158,6 +159,7 @@ export const TeamProvider = ({ children }) => {
       [POSITIONS.FORWARD]: teamArray.filter(p => p.position === POSITIONS.FORWARD),
       [POSITIONS.DEFENSE]: teamArray.filter(p => p.position === POSITIONS.DEFENSE),
       [POSITIONS.GOALIE]: teamArray.filter(p => p.position === POSITIONS.GOALIE),
+      [POSITIONS.SPARE]: teamArray.filter(p => p.position === POSITIONS.SPARE),
     };
     
     return grouped;
@@ -169,10 +171,13 @@ export const TeamProvider = ({ children }) => {
     
     setTimeout(() => {
       try {
+        // Only distribute regular players (not spares)
+        const regularPlayers = players.filter(p => p.position !== POSITIONS.SPARE);
+        
         // Distribute by position to maintain balance
-        const forwards = players.filter(p => p.position === POSITIONS.FORWARD);
-        const defense = players.filter(p => p.position === POSITIONS.DEFENSE);
-        const goalies = players.filter(p => p.position === POSITIONS.GOALIE);
+        const forwards = regularPlayers.filter(p => p.position === POSITIONS.FORWARD);
+        const defense = regularPlayers.filter(p => p.position === POSITIONS.DEFENSE);
+        const goalies = regularPlayers.filter(p => p.position === POSITIONS.GOALIE);
         
         // Shuffle each position group
         const shuffleArray = (array) => {
@@ -198,11 +203,11 @@ export const TeamProvider = ({ children }) => {
         const goaliesTeam1 = shuffledGoalies.filter((_, i) => i % 2 === 0);
         const goaliesTeam2 = shuffledGoalies.filter((_, i) => i % 2 === 1);
         
-        // Combine all positions
+        // Combine all positions (excluding spares from auto-distribution)
         setTeam1([...forwardsTeam1, ...defenseTeam1, ...goaliesTeam1]);
         setTeam2([...forwardsTeam2, ...defenseTeam2, ...goaliesTeam2]);
         
-        showNotification('Teams auto-distributed by position');
+        showNotification('Teams auto-distributed by position (spares excluded)');
       } catch (error) {
         console.error('Error auto-distributing teams:', error);
         showNotification('Error auto-distributing teams', 'error');
@@ -247,6 +252,14 @@ export const TeamProvider = ({ children }) => {
         });
         teamRoster += "\n";
       }
+
+      if (team1ByPosition[POSITIONS.SPARE].length > 0) {
+        teamRoster += "SPARES:\n";
+        team1ByPosition[POSITIONS.SPARE].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
       
       // Process Team White by position
       const team2ByPosition = getPlayersByPosition(team2);
@@ -272,6 +285,14 @@ export const TeamProvider = ({ children }) => {
       if (team2ByPosition[POSITIONS.GOALIE].length > 0) {
         teamRoster += "GOALIES:\n";
         team2ByPosition[POSITIONS.GOALIE].forEach((player, index) => {
+          teamRoster += `${index + 1}. ${player.name}\n`;
+        });
+        teamRoster += "\n";
+      }
+
+      if (team2ByPosition[POSITIONS.SPARE].length > 0) {
+        teamRoster += "SPARES:\n";
+        team2ByPosition[POSITIONS.SPARE].forEach((player, index) => {
           teamRoster += `${index + 1}. ${player.name}\n`;
         });
         teamRoster += "\n";
@@ -306,6 +327,14 @@ export const TeamProvider = ({ children }) => {
         if (unassignedByPosition[POSITIONS.GOALIE].length > 0) {
           teamRoster += "GOALIES:\n";
           unassignedByPosition[POSITIONS.GOALIE].forEach((player, index) => {
+            teamRoster += `${index + 1}. ${player.name}\n`;
+          });
+          teamRoster += "\n";
+        }
+
+        if (unassignedByPosition[POSITIONS.SPARE].length > 0) {
+          teamRoster += "SPARES:\n";
+          unassignedByPosition[POSITIONS.SPARE].forEach((player, index) => {
             teamRoster += `${index + 1}. ${player.name}\n`;
           });
         }
@@ -357,9 +386,9 @@ export const TeamProvider = ({ children }) => {
       case 'date-desc':
         return filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       case 'position':
-        // Sort by position: Goalies first, then Defense, then Forwards
+        // Sort by position: Goalies first, then Defense, then Forwards, then Spares
         return filtered.sort((a, b) => {
-          const positions = [POSITIONS.GOALIE, POSITIONS.DEFENSE, POSITIONS.FORWARD];
+          const positions = [POSITIONS.GOALIE, POSITIONS.DEFENSE, POSITIONS.FORWARD, POSITIONS.SPARE];
           return positions.indexOf(a.position) - positions.indexOf(b.position);
         });
       default:

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 
 const PlayerCard = ({ player }) => {
@@ -8,10 +8,9 @@ const PlayerCard = ({ player }) => {
     addToTeam2, 
     removeFromTeams,
     team1,
-    team2
+    team2,
+    POSITIONS
   } = useTeamContext();
-
-  const [showActions, setShowActions] = useState(false);
 
   // Check if player is already assigned to a team
   const isInTeam1 = team1.some(p => p.id === player.id);
@@ -20,23 +19,21 @@ const PlayerCard = ({ player }) => {
 
   const getPositionIcon = (position) => {
     switch (position) {
-      case 'Forward':
+      case POSITIONS.FORWARD:
         return <i className="fas fa-hockey-puck position-icon forward-icon"></i>;
-      case 'Defense':
+      case POSITIONS.DEFENSE:
         return <i className="fas fa-shield-alt position-icon defense-icon"></i>;
-      case 'Goalie':
+      case POSITIONS.GOALIE:
         return <i className="fas fa-mask position-icon goalie-icon"></i>;
+      case POSITIONS.SPARE:
+        return <i className="fas fa-user-plus position-icon spare-icon"></i>;
       default:
         return <i className="fas fa-hockey-puck position-icon"></i>;
     }
   };
 
   return (
-    <div 
-      className={`playerCard ${isAssigned ? 'assigned' : ''}`}
-      onMouseEnter={() => setShowActions(true)}
-      onMouseLeave={() => setShowActions(false)}
-    >
+    <div className={`playerCard ${isAssigned ? 'assigned' : ''}`}>
       <div className="playerInfo">
         <div className="nameContainer">
           <h3 className="playerName">{player.name}</h3>

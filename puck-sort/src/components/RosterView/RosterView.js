@@ -86,6 +86,7 @@ const RosterView = () => {
               <option value="forward">Forwards</option>
               <option value="defense">Defense</option>
               <option value="goalie">Goalies</option>
+              <option value="spare">Spares</option>
             </select>
           </div>
         </div>
@@ -108,6 +109,7 @@ const RosterView = () => {
           <option value={POSITIONS.FORWARD}>Forward</option>
           <option value={POSITIONS.DEFENSE}>Defense</option>
           <option value={POSITIONS.GOALIE}>Goalie</option>
+          <option value={POSITIONS.SPARE}>Spare</option>
         </select>
         <button 
           onClick={handleAddPlayer}

@@ -254,6 +254,12 @@ export const TeamProvider = ({ children }) => {
         const nonGoalies = teamArr.filter(p => p.position !== POSITIONS.GOALIE);
         const goalies = teamArr.filter(p => p.position === POSITIONS.GOALIE);
 
+        // Shuffle non-goalies so forwards and defense are mixed
+        for (let i = nonGoalies.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [nonGoalies[i], nonGoalies[j]] = [nonGoalies[j], nonGoalies[i]];
+        }
+
         roster += `${label}\n`;
         nonGoalies.forEach(p => {
           roster += `${p.name}\n`;

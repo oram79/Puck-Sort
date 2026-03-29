@@ -1,48 +1,40 @@
 import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 
-const TeamRoster = ({ team, teamName, teamColor }) => {
+/**
+ * TeamRoster
+ * 
+ * Displays a single team's player list, organized by position.
+ * Rendered twice on the Teams page: once for Black, once for White.
+ * 
+ * Each position group (Goalies, Defense, Forwards, Spares) gets
+ * its own collapsible-style section with a header and count badge.
+ */
+const TeamRoster = ({ team, teamName }) => {
   const { removeFromTeams, getPlayersByPosition, POSITIONS } = useTeamContext();
   const playersByPosition = getPlayersByPosition(team);
 
-  const getPositionIcon = (position) => {
-    switch (position) {
-      case POSITIONS.FORWARD:
-        return <i className="fas fa-hockey-puck position-icon forward-icon"></i>;
-      case POSITIONS.DEFENSE:
-        return <i className="fas fa-shield-alt position-icon defense-icon"></i>;
-      case POSITIONS.GOALIE:
-        return <i className="fas fa-mask position-icon goalie-icon"></i>;
-      case POSITIONS.SPARE:
-        return <i className="fas fa-user-plus position-icon spare-icon"></i>;
-      default:
-        return <i className="fas fa-hockey-puck position-icon"></i>;
-    }
-  };
 
-  // Render a section for each position type
   const renderPositionSection = (positionType, players) => {
     if (players.length === 0) return null;
-    
+
     return (
       <div className="positionSection" key={positionType}>
         <div className="positionHeader">
-          {getPositionIcon(positionType)}
           <h3 className="positionTitle">{positionType}s</h3>
           <span className="positionCount">{players.length}</span>
         </div>
-        
         <div className="positionPlayers">
           {players.map((player, index) => (
             <div key={player.id} className="teamPlayer">
               <div className="playerIndex">{index + 1}</div>
               <span className="playerName">{player.name}</span>
-              <button 
+              <button
                 className="removeButton"
                 onClick={() => removeFromTeams(player)}
-                aria-label={`Remove ${player.name} from Team ${teamName}`}
+                aria-label={`Remove ${player.name}`}
               >
-                <i className="fas fa-times"></i>
+                <i className="fas fa-xmark"></i>
               </button>
             </div>
           ))}
@@ -55,11 +47,15 @@ const TeamRoster = ({ team, teamName, teamColor }) => {
     <div className={`teamRoster team${teamName}`}>
       <div className="teamHeader">
         <div className="teamTitleContainer">
-          <h2 className="teamName">Team {teamName}</h2>
-          <span className="playerCount"><i className="fas fa-users"></i> {team.length}</span>
+          <h2 className="teamName">
+            <i className="fas fa-shirt"></i> Team {teamName}
+          </h2>
+          <span className="playerCount">
+            <i className="fas fa-users"></i> {team.length}
+          </span>
         </div>
       </div>
-      
+
       {team.length > 0 ? (
         <div className="teamPlayersList">
           {renderPositionSection(POSITIONS.GOALIE, playersByPosition[POSITIONS.GOALIE])}

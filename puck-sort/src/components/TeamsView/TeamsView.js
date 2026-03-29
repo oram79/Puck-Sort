@@ -2,61 +2,95 @@ import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 import TeamRoster from './TeamRoster';
 
+/**
+ * TeamsView
+ * 
+ * The team management dashboard. Contains:
+ *  1. Header with Auto-Distribute and Save Roster buttons
+ *  2. Stats row: total players + breakdown by position
+ *  3. Balance bar: visual indicator of team distribution (NEW)
+ *  4. Side-by-side team roster cards (Black vs White)
+ *  5. Unassigned players section with quick-assign buttons
+ */
 const TeamsView = () => {
-  const { 
-    team1, 
-    team2, 
-    players,
-    autoDistributeTeams, 
-    saveTeamsToFile,
-    isLoading,
-    addToTeam1,
-    addToTeam2,
-    getPlayersByPosition,
-    POSITIONS
+  const {
+    team1, team2, players,
+    autoDistributeTeams, saveTeamsToFile,
+    isLoading, addToTeam1, addToTeam2,
+    getPlayersByPosition, POSITIONS
   } = useTeamContext();
 
-  // Get unassigned players
+  // Unassigned players
   const unassignedPlayers = players.filter(
-    player => !team1.some(p => p.id === player.id) && !team2.some(p => p.id === player.id)
+    p => !team1.some(t => t.id === p.id) && !team2.some(t => t.id === p.id)
   );
-  
   const unassignedByPosition = getPlayersByPosition(unassignedPlayers);
 
-  // Player statistics by position
-  const totalPlayers = players.length;
+  // Stats
+  const total = players.length;
   const totalForwards = players.filter(p => p.position === POSITIONS.FORWARD).length;
   const totalDefense = players.filter(p => p.position === POSITIONS.DEFENSE).length;
   const totalGoalies = players.filter(p => p.position === POSITIONS.GOALIE).length;
   const totalSpares = players.filter(p => p.position === POSITIONS.SPARE).length;
 
+  // Balance percentages for the visual bar
+  const blackPct = total > 0 ? (team1.length / total) * 100 : 0;
+  const whitePct = total > 0 ? (team2.length / total) * 100 : 0;
+  const unassignedPct = total > 0 ? (unassignedPlayers.length / total) * 100 : 0;
+
+  // Reusable unassigned position block renderer
+  const renderUnassignedPosition = (positionType) => {
+    const list = unassignedByPosition[positionType];
+    if (list.length === 0) return null;
+
+    return (
+      <div className="unassignedPositionSection" key={positionType}>
+        <div className="positionHeader">
+          <h3 className="positionTitle">{positionType}s</h3>
+          <span className="positionCount">{list.length}</span>
+        </div>
+        <div className="unassignedList">
+          {list.map(player => (
+            <div key={player.id} className="unassignedPlayer">
+              <span className="playerName">{player.name}</span>
+              <div className="actions">
+                <button onClick={() => addToTeam1(player)} className="teamButton teamBlackBtn">
+                  <i className="fas fa-plus"></i> Black
+                </button>
+                <button onClick={() => addToTeam2(player)} className="teamButton teamWhiteBtn">
+                  <i className="fas fa-plus"></i> White
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="teamsView">
+      {/* -- Header with Actions -- */}
       <div className="header">
         <div>
-          <h1 className="title">Team Management</h1>
-          <p className="subtitle">
-            Organize players into balanced teams by position
-          </p>
+          <h1 className="title">
+            <i className="fas fa-people-group"></i> Team Management
+          </h1>
+          <p className="subtitle">Organize players into balanced teams by position</p>
         </div>
-
         <div className="actions">
-          <button 
+          <button
             className="actionButton distributeButton"
             onClick={autoDistributeTeams}
             disabled={isLoading || players.length === 0}
           >
             {isLoading ? (
-              <>
-                <i className="fas fa-spinner fa-spin"></i> Distributing...
-              </>
+              <><i className="fas fa-spinner fa-spin"></i> Distributing...</>
             ) : (
-              <>
-                <i className="fas fa-random"></i> Auto-Distribute
-              </>
+              <><i className="fas fa-shuffle"></i> Auto-Distribute</>
             )}
           </button>
-          <button 
+          <button
             className="actionButton saveButton"
             onClick={saveTeamsToFile}
             disabled={team1.length === 0 && team2.length === 0}
@@ -66,10 +100,19 @@ const TeamsView = () => {
         </div>
       </div>
 
+      {/* -- Stats Row -- */}
       <div className="stats">
         <div className="statCard">
-          <span className="statValue">{totalPlayers}</span>
-          <span className="statLabel">Total Players</span>
+          <span className="statValue">{total}</span>
+          <span className="statLabel">Total</span>
+          {/* Balance bar shows distribution at a glance */}
+          {total > 0 && (
+            <div className="balanceBar">
+              <div className="balanceSegment black" style={{ width: `${blackPct}%` }}></div>
+              <div className="balanceSegment white" style={{ width: `${whitePct}%` }}></div>
+              <div className="balanceSegment unassigned" style={{ width: `${unassignedPct}%` }}></div>
+            </div>
+          )}
         </div>
         <div className="statCard">
           <span className="statValue">{totalForwards}</span>
@@ -89,144 +132,22 @@ const TeamsView = () => {
         </div>
       </div>
 
+      {/* -- Side-by-Side Team Rosters -- */}
       <div className="teamsContainer">
-        <TeamRoster 
-          team={team1} 
-          teamName="Black" 
-          teamColor="black" 
-        />
-        <TeamRoster 
-          team={team2} 
-          teamName="White" 
-          teamColor="white" 
-        />
+        <TeamRoster team={team1} teamName="Black" />
+        <TeamRoster team={team2} teamName="White" />
       </div>
 
+      {/* -- Unassigned Players -- */}
       {unassignedPlayers.length > 0 && (
         <div className="unassignedSection">
           <h2 className="sectionTitle">
-            <i className="fas fa-user-slash"></i> Unassigned Players
+            <i className="fas fa-user-clock"></i> Unassigned Players
           </h2>
-          
-          {unassignedByPosition[POSITIONS.GOALIE].length > 0 && (
-            <div className="unassignedPositionSection">
-              <div className="positionHeader">
-                <i className="fas fa-mask"></i>
-                <h3>Goalies</h3>
-              </div>
-              <div className="unassignedList">
-                {unassignedByPosition[POSITIONS.GOALIE].map(player => (
-                  <div key={player.id} className="unassignedPlayer">
-                    <span className="playerName">{player.name}</span>
-                    <div className="actions">
-                      <button 
-                        onClick={() => addToTeam1(player)}
-                        className="teamButton teamBlackBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team Black
-                      </button>
-                      <button 
-                        onClick={() => addToTeam2(player)}
-                        className="teamButton teamWhiteBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team White
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          {unassignedByPosition[POSITIONS.DEFENSE].length > 0 && (
-            <div className="unassignedPositionSection">
-              <div className="positionHeader">
-                <i className="fas fa-shield-alt"></i>
-                <h3>Defense</h3>
-              </div>
-              <div className="unassignedList">
-                {unassignedByPosition[POSITIONS.DEFENSE].map(player => (
-                  <div key={player.id} className="unassignedPlayer">
-                    <span className="playerName">{player.name}</span>
-                    <div className="actions">
-                      <button 
-                        onClick={() => addToTeam1(player)}
-                        className="teamButton teamBlackBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team Black
-                      </button>
-                      <button 
-                        onClick={() => addToTeam2(player)}
-                        className="teamButton teamWhiteBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team White
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          {unassignedByPosition[POSITIONS.FORWARD].length > 0 && (
-            <div className="unassignedPositionSection">
-              <div className="positionHeader">
-                <i className="fas fa-hockey-puck"></i>
-                <h3>Forwards</h3>
-              </div>
-              <div className="unassignedList">
-                {unassignedByPosition[POSITIONS.FORWARD].map(player => (
-                  <div key={player.id} className="unassignedPlayer">
-                    <span className="playerName">{player.name}</span>
-                    <div className="actions">
-                      <button 
-                        onClick={() => addToTeam1(player)}
-                        className="teamButton teamBlackBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team Black
-                      </button>
-                      <button 
-                        onClick={() => addToTeam2(player)}
-                        className="teamButton teamWhiteBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team White
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {unassignedByPosition[POSITIONS.SPARE].length > 0 && (
-            <div className="unassignedPositionSection">
-              <div className="positionHeader">
-                <i className="fas fa-user-plus"></i>
-                <h3>Spares</h3>
-              </div>
-              <div className="unassignedList">
-                {unassignedByPosition[POSITIONS.SPARE].map(player => (
-                  <div key={player.id} className="unassignedPlayer">
-                    <span className="playerName">{player.name}</span>
-                    <div className="actions">
-                      <button 
-                        onClick={() => addToTeam1(player)}
-                        className="teamButton teamBlackBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team Black
-                      </button>
-                      <button 
-                        onClick={() => addToTeam2(player)}
-                        className="teamButton teamWhiteBtn"
-                      >
-                        <i className="fas fa-user-plus"></i> Team White
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {renderUnassignedPosition(POSITIONS.GOALIE)}
+          {renderUnassignedPosition(POSITIONS.DEFENSE)}
+          {renderUnassignedPosition(POSITIONS.FORWARD)}
+          {renderUnassignedPosition(POSITIONS.SPARE)}
         </div>
       )}
     </div>

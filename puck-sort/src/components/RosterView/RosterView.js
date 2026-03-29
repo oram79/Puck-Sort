@@ -2,19 +2,24 @@ import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 import PlayerCard from './PlayerCard';
 
+/**
+ * RosterView
+ * 
+ * The primary player management interface. Contains:
+ *  1. Section header with title + subtitle
+ *  2. Controls bar: search input + sort/filter dropdowns
+ *  3. Add Player form: name input, position select, add button
+ *  4. Player card grid: auto-fill responsive layout
+ *  5. Empty state: shown when no players match
+ */
 const RosterView = () => {
-  const { 
-    newPlayer, 
-    setNewPlayer,
-    newPlayerPosition,
-    setNewPlayerPosition,
-    handleAddPlayer, 
-    searchTerm,
-    setSearchTerm,
-    sortOption,
-    setSortOption,
-    positionFilter,
-    setPositionFilter,
+  const {
+    newPlayer, setNewPlayer,
+    newPlayerPosition, setNewPlayerPosition,
+    handleAddPlayer,
+    searchTerm, setSearchTerm,
+    sortOption, setSortOption,
+    positionFilter, setPositionFilter,
     getFilteredPlayers,
     POSITIONS
   } = useTeamContext();
@@ -22,24 +27,26 @@ const RosterView = () => {
   const filteredPlayers = getFilteredPlayers();
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleAddPlayer();
-    }
+    if (e.key === 'Enter') handleAddPlayer();
   };
 
   return (
     <div className="rosterView">
+      {/* -- Section Header -- */}
       <div className="header">
-        <h1 className="title">Player Roster</h1>
+        <h1 className="title">
+          <i className="fas fa-users"></i> Player Roster
+        </h1>
         <p className="subtitle">
-          Manage all players available
+          Add, edit, and manage all players in your league
         </p>
       </div>
 
+      {/* -- Controls: Search + Sort + Filter -- */}
       <div className="controls">
         <div className="searchContainer">
-          <i className="fas fa-search search-icon"></i>
-          <input 
+          <i className="fas fa-magnifying-glass search-icon"></i>
+          <input
             type="text"
             placeholder="Search players..."
             value={searchTerm}
@@ -47,19 +54,19 @@ const RosterView = () => {
             className="searchInput"
           />
           {searchTerm && (
-            <button 
+            <button
               className="clearSearch"
               onClick={() => setSearchTerm('')}
               aria-label="Clear search"
             >
-              <i className="fas fa-times"></i>
+              <i className="fas fa-xmark"></i>
             </button>
           )}
         </div>
 
         <div className="filtersContainer">
           <div className="sortContainer">
-            <label htmlFor="sort" className="sortLabel">Sort by:</label>
+            <label htmlFor="sort" className="sortLabel">Sort:</label>
             <select
               id="sort"
               className="sortSelect"
@@ -68,8 +75,8 @@ const RosterView = () => {
             >
               <option value="name-asc">Name (A-Z)</option>
               <option value="name-desc">Name (Z-A)</option>
-              <option value="date-asc">Date Added (Oldest)</option>
-              <option value="date-desc">Date Added (Newest)</option>
+              <option value="date-asc">Oldest First</option>
+              <option value="date-desc">Newest First</option>
               <option value="position">Position</option>
             </select>
           </div>
@@ -82,7 +89,7 @@ const RosterView = () => {
               value={positionFilter}
               onChange={(e) => setPositionFilter(e.target.value)}
             >
-              <option value="all">All Positions</option>
+              <option value="all">All</option>
               <option value="forward">Forwards</option>
               <option value="defense">Defense</option>
               <option value="goalie">Goalies</option>
@@ -92,8 +99,9 @@ const RosterView = () => {
         </div>
       </div>
 
+      {/* -- Add Player Form -- */}
       <div className="addPlayerContainer">
-        <input 
+        <input
           type="text"
           placeholder="Enter player name"
           value={newPlayer}
@@ -111,7 +119,7 @@ const RosterView = () => {
           <option value={POSITIONS.GOALIE}>Goalie</option>
           <option value={POSITIONS.SPARE}>Spare</option>
         </select>
-        <button 
+        <button
           onClick={handleAddPlayer}
           className="addPlayerButton"
           disabled={!newPlayer.trim()}
@@ -120,6 +128,7 @@ const RosterView = () => {
         </button>
       </div>
 
+      {/* -- Player Cards Grid -- */}
       <div className="playersList">
         {filteredPlayers.length > 0 ? (
           filteredPlayers.map(player => (
@@ -136,9 +145,7 @@ const RosterView = () => {
             ) : (
               <>
                 <p className="emptyTitle">No players added yet</p>
-                <p className="emptyDesc">
-                  Add players to start building your teams
-                </p>
+                <p className="emptyDesc">Add players to start building your teams</p>
               </>
             )}
           </div>

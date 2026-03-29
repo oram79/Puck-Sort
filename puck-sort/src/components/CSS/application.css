@@ -1,1094 +1,1182 @@
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+/* ============================================================
+   PUCKSORT v2.0 - "Ice Rink Noir" Theme
+   Dark arena aesthetic with cool blue accent lighting.
+   Typography: Outfit (headings) + DM Sans (body)
+   ============================================================ */
 
-/* Global CSS Variables */
+/* -- Font Imports -- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   All colors, spacing, and effects defined here for
+   easy theming and consistency across the app.
+   ============================================================ */
 :root {
-  /* Primary color palette - Monochrome */
-  --color-primary: #000000;
-  --color-primary-light: rgba(0, 0, 0, 0.1);
-  --color-primary-dark: #000000;
-  
-  /* Secondary color palette - Grays */
-  --color-secondary: #333333;
-  --color-secondary-dark: #222222;
-  
-  /* Status colors */
-  --color-success: #444444;
-  --color-success-dark: #333333;
-  --color-warning: #666666;
-  --color-warning-dark: #555555;
-  --color-error: #888888;
-  --color-error-dark: #777777;
-  --color-info: #555555;
-  --color-info-dark: #444444;
-  
-  /* Team colors */
-  --color-team-black: #000000;
-  --color-team-black-dark: #000000;
-  --color-team-white: #f5f5f5;
-  --color-team-white-dark: #e0e0e0;
-  
-  /* Position colors */
-  --color-forward: #444444;
-  --color-defense: #666666;
-  --color-goalie: #888888;
-  --color-spare: #999999;
-  
-  /* Text colors */
-  --color-text-primary: #000000;
-  --color-text-secondary: #666666;
-  
-  /* Surface colors */
-  --color-surface: #ffffff;
-  --color-surface-variant: #f5f5f5;
-  --color-hover: #eeeeee;
-  --color-border: #dddddd;
-  --color-disabled: #000000;
-  
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  
-  /* Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  /* -- Core Palette -- */
+  --color-bg: #0d1117;
+  --color-bg-raised: #161b22;
+  --color-bg-card: #1c2129;
+  --color-bg-card-hover: #222830;
+  --color-bg-input: #0d1117;
+  --color-bg-header: #0a0e14;
+
+  /* -- Accent (Ice Blue) -- */
+  --color-accent: #58a6ff;
+  --color-accent-dim: rgba(88, 166, 255, 0.15);
+  --color-accent-glow: rgba(88, 166, 255, 0.25);
+  --color-accent-hover: #79bbff;
+
+  /* -- Team Colors -- */
+  --color-team-black: #e6edf3;
+  --color-team-black-bg: #21262d;
+  --color-team-white: #0d1117;
+  --color-team-white-bg: #e6edf3;
+
+  /* -- Status Colors -- */
+  --color-success: #3fb950;
+  --color-success-dim: rgba(63, 185, 80, 0.15);
+  --color-warning: #7a8595;
+  --color-warning-dim: rgba(122, 133, 149, 0.15);
+  --color-error: #f85149;
+  --color-error-dim: rgba(248, 81, 73, 0.15);
+  --color-info: #58a6ff;
+  --color-info-dim: rgba(88, 166, 255, 0.15);
+
+  /* -- Text -- */
+  --color-text: #e6edf3;
+  --color-text-secondary: #8b949e;
+  --color-text-muted: #484f58;
+
+  /* -- Borders & Dividers -- */
+  --color-border: #30363d;
+  --color-border-subtle: #21262d;
+
+  /* -- Spacing Scale -- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+
+  /* -- Radius -- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
   --radius-full: 9999px;
-  
-  /* Shadows */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15);
-  
-  /* Transitions */
-  --transition-fast: all 0.15s ease;
-  --transition-normal: all 0.25s ease;
-  --transition-slow: all 0.35s ease;
+
+  /* -- Shadows -- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(88, 166, 255, 0.15);
+
+  /* -- Transitions -- */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Base styles */
-* {
+/* ============================================================
+   BASE / RESET
+   Foundational styles applied globally.
+   ============================================================ */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--color-surface-variant);
-  color: var(--color-text-primary);
-  line-height: 1.5;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin: 0;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
+button {
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input, select, textarea {
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* -- Scrollbar -- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-secondary); }
+
+/* ============================================================
+   APP CONTAINER
+   The root flex wrapper for header/content/footer layout.
+   ============================================================ */
 .app-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--color-bg);
+  /* subtle noise texture via repeating gradient */
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(88, 166, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(88, 166, 255, 0.03) 0%, transparent 60%);
 }
 
-button {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-  cursor: pointer;
-}
-
-input, select, textarea {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface-variant);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-secondary);
-}
-
-/* ==========================
-   Header Component Styles
-   ========================== */
+/* ============================================================
+   HEADER
+   Fixed top bar with logo, nav tabs, and accent underline.
+   ============================================================ */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--color-primary);
-  box-shadow: var(--shadow-lg);
-  position: relative; /* Changed from sticky to relative */
+  padding: var(--sp-4) var(--sp-8);
+  background: var(--color-bg-header);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
   top: 0;
-  z-index: 10;
-  color: white;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .logoContainer {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: white;
+  gap: var(--sp-3);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.5px;
 }
 
 .logoIcon {
-  font-size: 1.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  font-size: 1.25rem;
+  color: var(--color-accent);
+  filter: drop-shadow(0 0 6px rgba(88, 166, 255, 0.4));
 }
 
 .appName {
-  font-family: 'Montserrat', sans-serif;
-  letter-spacing: 0.75px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background: linear-gradient(135deg, var(--color-text), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .tagline {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.85);
-  margin-top: -2px;
-  margin-left: 2.5rem;
-  font-weight: 300;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  margin-left: 2.25rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
+/* -- Navigation Tabs -- */
 .navigation {
   display: flex;
-  gap: 0.25rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 0.25rem;
-  border-radius: var(--radius-lg);
+  gap: 2px;
+  background: var(--color-bg-raised);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
 .navButton {
-  background: none;
-  border: none;
-  padding: 0.6rem 1.25rem;
-  font-size: 0.9rem;
+  background: transparent;
+  color: var(--color-text-secondary);
+  padding: var(--sp-2) var(--sp-5);
+  font-size: 0.85rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all 0.2s ease;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.navIcon {
-  font-size: 0.9rem;
+  gap: var(--sp-2);
+  transition: all var(--transition-fast);
+  position: relative;
 }
 
 .navButton:hover {
-  color: white;
-  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .navButton.active {
-  color: var(--color-primary);
-  background-color: white;
+  color: var(--color-accent);
+  background: var(--color-accent-dim);
   font-weight: 600;
-  box-shadow: var(--shadow-sm);
+}
+
+.navIcon { font-size: 0.85rem; }
+
+/* Badge on nav tabs showing player/team counts */
+.navBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--color-accent-dim);
+  color: var(--color-accent);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  min-width: 18px;
+  text-align: center;
+}
+
+.navButton.active .navBadge {
+  background: var(--color-accent);
+  color: var(--color-bg);
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--sp-4);
 }
 
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--sp-4);
+    gap: var(--sp-3);
   }
-  
-  .logoContainer {
-    align-items: center;
-  }
-  
-  .tagline {
-    margin-left: 0;
-  }
-  
-  .navigation {
-    width: 100%;
-    justify-content: center;
-  }
+  .logoContainer { align-items: center; }
+  .tagline { margin-left: 0; text-align: center; }
+  .navigation { width: 100%; justify-content: center; }
 }
 
-/* ==========================
-   Dashboard Component Styles
-   ========================== */
+/* ============================================================
+   DASHBOARD (Main Content Area)
+   The middle flex section that holds the active view.
+   ============================================================ */
 .dashboard {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: var(--sp-6) var(--sp-8);
   position: relative;
-  background-color: var(--color-surface-variant);
 }
 
 .content {
   flex: 1;
-  max-width: 1200px;
+  max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-  animation: fadeIn 0.3s ease;
+  animation: viewFadeIn 0.35s var(--transition-slow) forwards;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes viewFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {
-  .dashboard {
-    padding: 1rem;
-  }
+  .dashboard { padding: var(--sp-4); }
 }
 
-/* ==========================
-   Footer Component Styles
-   ========================== */
+/* ============================================================
+   FOOTER
+   Minimal bottom bar with copyright and links.
+   ============================================================ */
 .footer {
-  margin-top: 2rem;
-  padding: 1.25rem 2rem;
-  background-color: var(--color-primary);
-  color: white;
+  margin-top: auto;
+  padding: var(--sp-5) var(--sp-8);
+  background: var(--color-bg-header);
+  border-top: 1px solid var(--color-border);
 }
 
 .footer .content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
+  animation: none;
 }
 
 .copyright {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 
 .links {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--sp-6);
 }
 
 .link {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  transition: color 0.2s ease;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 
-.link:hover {
-  color: white;
-}
+.link:hover { color: var(--color-accent); }
 
 @media (max-width: 768px) {
-  .footer {
-    padding: 1rem;
-  }
-  
-  .footer .content {
-    flex-direction: column;
-    gap: 0.75rem;
-    text-align: center;
-  }
+  .footer { padding: var(--sp-4); }
+  .footer .content { flex-direction: column; gap: var(--sp-3); text-align: center; }
 }
 
-/* ==========================
-   Notification Component Styles
-   ========================== */
+/* ============================================================
+   NOTIFICATION
+   Slide-in toast notification with progress bar.
+   ============================================================ */
 .notification {
   position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: var(--sp-6);
+  right: var(--sp-6);
   display: flex;
   align-items: center;
-  min-width: 300px;
-  max-width: 450px;
-  background-color: var(--color-surface);
+  min-width: 320px;
+  max-width: 480px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
-  z-index: 1000;
-  animation: slideIn 0.3s ease forwards;
-  border-left: 4px solid;
+  z-index: 9999;
+  animation: notifSlideIn 0.4s var(--transition-slow) forwards;
+  border-left: 3px solid;
 }
 
-.notification.success {
-  border-color: var(--color-success);
-}
-
-.notification.error {
-  border-color: var(--color-error);
-}
-
-.notification.info {
-  border-color: var(--color-info);
-}
-
-.notification.warning {
-  border-color: var(--color-warning);
-}
+.notification.success { border-left-color: var(--color-success); }
+.notification.error { border-left-color: var(--color-error); }
+.notification.info { border-left-color: var(--color-info); }
+.notification.warning { border-left-color: var(--color-warning); }
 
 .iconContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 48px;
-  height: 48px;
   flex-shrink: 0;
 }
 
 .icon {
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: black;
 }
 
-.notification.success .icon {
-  color: var(--color-success);
-}
-
-.notification.error .icon {
-  color: var(--color-error);
-}
-
-.notification.info .icon {
-  color: var(--color-info);
-}
-
-.notification.warning .icon {
-  color: var(--color-warning);
-}
+.notification.success .icon { color: var(--color-success); }
+.notification.error .icon { color: var(--color-error); }
+.notification.info .icon { color: var(--color-info); }
+.notification.warning .icon { color: var(--color-warning); }
 
 .notification .content {
   flex: 1;
-  padding: 0.75rem 0;
+  padding: var(--sp-3) 0;
+  animation: none;
 }
 
 .message {
+  font-size: 0.875rem;
+  color: var(--color-text);
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--color-text-primary);
 }
 
 .progressBarContainer {
-  height: 3px;
+  height: 2px;
   width: 100%;
-  background-color: var(--color-surface-variant);
-  margin-top: 0.5rem;
+  background: var(--color-border);
+  margin-top: var(--sp-2);
+  border-radius: var(--radius-full);
+  overflow: hidden;
 }
 
-.progressBar {
-  height: 100%;
-  transition: width 10ms linear;
-}
-
-.success .progressBar {
-  background-color: var(--color-success);
-}
-
-.error .progressBar {
-  background-color: var(--color-error);
-}
-
-.info .progressBar {
-  background-color: var(--color-info);
-}
-
-.warning .progressBar {
-  background-color: var(--color-warning);
-}
+.progressBar { height: 100%; transition: width 10ms linear; border-radius: var(--radius-full); }
+.success .progressBar { background: var(--color-success); }
+.error .progressBar { background: var(--color-error); }
+.info .progressBar { background: var(--color-info); }
+.warning .progressBar { background: var(--color-warning); }
 
 .closeButton {
   background: none;
-  border: none;
-  color: var(--color-text-secondary);
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  padding: var(--sp-3);
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
+  transition: color var(--transition-fast);
 }
 
-.closeButton:hover {
-  color: var(--color-text-primary);
-}
+.closeButton:hover { color: var(--color-text); }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+@keyframes notifSlideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 @media (max-width: 768px) {
-  .notification {
-    width: calc(100% - 2rem);
-    min-width: auto;
-    left: 1rem;
-    right: 1rem;
-  }
+  .notification { min-width: auto; left: var(--sp-4); right: var(--sp-4); }
 }
 
-/* ==========================
-   RosterView Component Styles
-   ========================== */
-.rosterView {
+/* ============================================================
+   CONFIRM MODAL
+   Overlay dialog for destructive confirmations.
+   ============================================================ */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: modalFadeIn 0.2s ease;
 }
 
-.rosterView .header {
-  margin-bottom: 0.5rem;
-  position: relative;
-  box-shadow: none;
-  background-color: transparent;
-  padding: 0;
-  display: block;
+.modalContent {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-8);
+  max-width: 420px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+  animation: modalScaleIn 0.25s var(--transition-slow);
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  margin-bottom: var(--sp-3);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.modalTitle .fa-exclamation-triangle { color: var(--color-warning); }
+
+.modalBody {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--sp-6);
+  line-height: 1.6;
+}
+
+.modalActions {
+  display: flex;
+  gap: var(--sp-3);
+  justify-content: flex-end;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalScaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================================
+   SECTION HEADERS (shared across views)
+   Title + subtitle used at the top of Roster, Teams, Settings.
+   ============================================================ */
+.viewHeader {
+  margin-bottom: var(--sp-6);
 }
 
 .title {
   font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin: 0 0 0.5rem 0;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0 0 var(--sp-2) 0;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-3);
+  letter-spacing: -0.5px;
 }
 
+.title i { color: var(--color-accent); font-size: 1.4rem; }
+
 .subtitle {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--color-text-secondary);
   margin: 0;
 }
 
+/* ============================================================
+   ROSTERVIEW
+   Player list with search, filters, add form, and cards.
+   ============================================================ */
+.rosterView {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+/* Prevent .header class conflicts inside rosterView */
+.rosterView > .header,
+.settingsView > .header,
+.teamsView > .header {
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border: none;
+  display: block;
+  backdrop-filter: none;
+}
+
+/* -- Controls Bar (search + filters) -- */
 .controls {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  align-items: center;
+  gap: var(--sp-4);
   flex-wrap: wrap;
 }
 
 .searchContainer {
   position: relative;
   flex: 1;
-  max-width: 350px;
+  max-width: 380px;
 }
 
 .search-icon {
   position: absolute;
-  left: 1rem;
+  left: var(--sp-4);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
 }
 
 .searchInput {
   width: 100%;
-  padding: 0.75rem 2.5rem 0.75rem 2.5rem;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  font-size: 0.95rem;
-  color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  transition: all 0.2s ease;
+  padding: var(--sp-3) var(--sp-10) var(--sp-3) var(--sp-10);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
 }
 
+.searchInput::placeholder { color: var(--color-text-muted); }
+
 .searchInput:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
 }
 
 .clearSearch {
   position: absolute;
-  right: 0.75rem;
+  right: var(--sp-3);
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
+  padding: var(--sp-1);
+  font-size: 0.85rem;
 }
 
-.clearSearch:hover {
-  color: var(--color-text-primary);
-}
+.clearSearch:hover { color: var(--color-text); }
 
 .filtersContainer {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--sp-4);
   flex-wrap: wrap;
 }
 
 .sortContainer, .positionFilterContainer {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-2);
 }
 
 .sortLabel, .filterLabel {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--color-text-secondary);
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .sortSelect, .filterSelect, .positionSelect {
-  padding: 0.6rem 2.5rem 0.6rem 1rem;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  font-size: 0.9rem;
-  background-color: var(--color-surface);
-  color: var(--color-text-primary);
+  padding: var(--sp-2) var(--sp-8) var(--sp-2) var(--sp-3);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 0.85rem;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23616161' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%238b949e' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  transition: all 0.2s ease;
+  background-position: right 8px center;
+  transition: all var(--transition-fast);
 }
 
 .sortSelect:focus, .filterSelect:focus, .positionSelect:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
 }
 
+/* -- Add Player Form -- */
 .addPlayerContainer {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: var(--sp-3);
   flex-wrap: wrap;
 }
 
 .addPlayerInput {
   flex: 1;
-  min-width: 200px;
-  padding: 0.85rem 1.25rem;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  font-size: 0.95rem;
-  color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  transition: all 0.2s ease;
+  min-width: 220px;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
 }
 
+.addPlayerInput::placeholder { color: var(--color-text-muted); }
+
 .addPlayerInput:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-light);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
 }
 
 .positionSelect {
-  padding: 0.85rem 2.5rem 0.85rem 1.25rem;
-  max-width: 150px;
+  max-width: 140px;
+  padding: var(--sp-3) var(--sp-8) var(--sp-3) var(--sp-4);
 }
 
 .addPlayerButton {
-  padding: 0 1.5rem;
-  background-color: var(--color-primary);
-  color: white;
+  padding: var(--sp-3) var(--sp-6);
+  background: var(--color-accent);
+  color: var(--color-bg);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sp-2);
+  transition: all var(--transition-fast);
+  box-shadow: 0 0 12px rgba(88, 166, 255, 0.2);
 }
 
-.addPlayerButton:hover {
-  background-color: var(--color-secondary);
-  box-shadow: var(--shadow-md);
+.addPlayerButton:hover:not(:disabled) {
+  background: var(--color-accent-hover);
   transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
 }
 
 .addPlayerButton:disabled {
-  background-color: var(--color-disabled);
+  opacity: 0.4;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
 }
 
-/* Updated Player Card Styles */
+/* -- Player Cards Grid -- */
 .playersList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--sp-4);
 }
 
 .playerCard {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.25rem;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border-left: 4px solid transparent;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
   overflow: hidden;
 }
 
+.playerCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-border);
+  transition: background var(--transition-normal);
+}
+
 .playerCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--color-text-muted);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
-.playerCard.assigned {
-  border-left-color: #555555;
+.playerCard:hover::before {
+  background: var(--color-accent);
 }
 
-.playerCard.assigned:has(.teamBlack) {
-  border-left-color: var(--color-team-black);
-}
-
-.playerCard.assigned:has(.teamWhite) {
-  border-left-color: var(--color-team-white);
+.playerCard.assigned::before {
+  background: var(--color-accent);
 }
 
 .playerInfo {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--sp-2);
 }
 
 .nameContainer {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-3);
   flex-wrap: wrap;
 }
 
 .playerName {
   margin: 0;
-  font-size: 1.15rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #000000;
-  letter-spacing: 0.25px;
+  color: var(--color-text);
 }
 
 .teamBadge {
-  padding: 0.35rem 0.7rem;
-  font-size: 0.7rem;
+  padding: 3px 10px;
+  font-size: 0.65rem;
   font-weight: 700;
-  border-radius: 6px;
+  border-radius: var(--radius-full);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.8px;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--sp-1);
 }
 
 .teamBlack {
-  background-color: var(--color-team-black);
-  color: white;
+  background: var(--color-team-black-bg);
+  color: var(--color-team-black);
+  border: 1px solid var(--color-border);
 }
 
 .teamWhite {
-  background-color: var(--color-team-white);
-  color: var(--color-team-black);
+  background: var(--color-team-white-bg);
+  color: var(--color-team-white);
 }
 
 .positionContainer {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: var(--sp-2);
+  font-size: 0.825rem;
   color: var(--color-text-secondary);
 }
 
-.position-icon {
-  margin-right: 0.25rem;
-}
 
-.forward-icon {
-  color: var(--color-forward);
-}
 
-.defense-icon {
-  color: var(--color-defense);
-}
+.positionLabel { font-weight: 500; }
 
-.goalie-icon {
-  color: var(--color-goalie);
-}
-
-.spare-icon {
-  color: var(--color-spare);
-}
-
-.positionLabel {
-  font-weight: 500;
-}
-
+/* -- Player Card Action Buttons -- */
 .playerActions {
-  position: relative;
-  z-index: 1;
   display: flex;
-  gap: 0.5rem;
-  opacity: 1;
-  transition: all 0.2s ease;
+  gap: var(--sp-2);
   flex-wrap: wrap;
 }
 
-.actionButton {
+.playerActions .actionButton {
   flex: 1;
-  padding: 0.5rem 0.75rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.8rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: var(--sp-1);
+  transition: all var(--transition-fast);
+  box-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .teamBlackBtn {
-  background-color: var(--color-team-black);
-  color: white;
+  background: var(--color-team-black-bg);
+  color: var(--color-team-black);
+  border: 1px solid var(--color-border);
 }
 
 .teamBlackBtn:hover {
-  background-color: var(--color-secondary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: var(--color-text-muted);
+  border-color: var(--color-text-muted);
 }
 
 .teamWhiteBtn {
-  background-color: var(--color-team-white);
-  color: var(--color-team-black);
+  background: var(--color-team-white-bg);
+  color: var(--color-team-white);
 }
 
 .teamWhiteBtn:hover {
-  background-color: var(--color-team-white-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: #d0d7de;
 }
 
 .removeTeamBtn {
-  background-color: var(--color-warning);
-  color: white;
+  background: var(--color-warning-dim);
+  color: var(--color-warning);
 }
 
 .removeTeamBtn:hover {
-  background-color: var(--color-warning-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: var(--color-warning);
+  color: var(--color-bg);
+}
+
+.editBtn {
+  background: var(--color-info-dim);
+  color: var(--color-info);
+}
+
+.editBtn:hover {
+  background: var(--color-info);
+  color: var(--color-bg);
 }
 
 .deleteBtn {
-  background-color: var(--color-error);
-  color: white;
+  background: var(--color-error-dim);
+  color: var(--color-error);
 }
 
 .deleteBtn:hover {
-  background-color: var(--color-error-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: var(--color-error);
+  color: white;
 }
 
+/* -- Edit Mode on Player Card -- */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.editRow {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.editInput {
+  flex: 1;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
+}
+
+.editSelect {
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
+  appearance: none;
+  cursor: pointer;
+}
+
+.editActions {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.saveEditBtn {
+  flex: 1;
+  padding: var(--sp-2);
+  background: var(--color-success);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  transition: all var(--transition-fast);
+}
+
+.saveEditBtn:hover { background: #4ac95f; }
+
+.cancelEditBtn {
+  flex: 1;
+  padding: var(--sp-2);
+  background: var(--color-bg-raised);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  transition: all var(--transition-fast);
+}
+
+.cancelEditBtn:hover {
+  background: var(--color-bg-card-hover);
+  color: var(--color-text);
+}
+
+/* -- Empty State -- */
 .emptyState {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 1rem;
-  background-color: var(--color-surface);
-  border: 2px dashed var(--color-border);
+  padding: var(--sp-12) var(--sp-4);
+  background: var(--color-bg-card);
+  border: 1px dashed var(--color-border);
   border-radius: var(--radius-lg);
   text-align: center;
   grid-column: 1 / -1;
-  gap: 1rem;
+  gap: var(--sp-3);
 }
 
 .emptyIcon {
-  font-size: 3rem;
-  color: var(--color-border);
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  color: var(--color-text-muted);
 }
 
 .emptyTitle {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-text);
+  margin: 0;
 }
 
 .emptyDesc {
-  margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--color-text-secondary);
-  max-width: 300px;
+  max-width: 280px;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
-  .controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .searchContainer {
-    max-width: none;
-  }
-  
-  .filtersContainer {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .playerCard {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .playerActions {
-    width: 100%;
-    opacity: 1;
-    flex-wrap: wrap;
-  }
-  
-  .actionButton {
-    flex: 1;
-  }
-  
-  .playersList {
-    grid-template-columns: 1fr;
-  }
+  .controls { flex-direction: column; align-items: stretch; }
+  .searchContainer { max-width: none; }
+  .playersList { grid-template-columns: 1fr; }
+  .playerActions { flex-wrap: wrap; }
 }
 
-/* ==========================
-   TeamsView Component Styles
-   ========================== */
+/* ============================================================
+   TEAMSVIEW
+   Team management with stats, rosters, and unassigned section.
+   ============================================================ */
 .teamsView {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--sp-6);
 }
 
-.teamsView .header {
+.teamsView > .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  position: relative;
-  box-shadow: none;
-  background-color: transparent;
-  padding: 0;
-  border: none;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--sp-4);
 }
 
 .teamsView .actions {
   display: flex;
-  gap: 1rem;
+  gap: var(--sp-3);
   flex-wrap: wrap;
 }
 
+/* -- Top Action Buttons (Distribute, Save) -- */
 .actionButton {
-  padding: 0.85rem 1.5rem;
-  border: none;
-  border-radius: var(--radius-lg);
-  font-size: 0.95rem;
+  padding: var(--sp-3) var(--sp-5);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  box-shadow: var(--shadow-sm);
+  gap: var(--sp-2);
+  transition: all var(--transition-fast);
+  border: none;
 }
 
 .actionButton:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.distributeButton {
-  background-color: var(--color-secondary);
-  color: white;
-}
-
-.distributeButton:hover:not(:disabled) {
-  background-color: var(--color-primary);
-}
-
-.saveButton {
-  background-color: var(--color-success);
-  color: white;
-}
-
-.saveButton:hover:not(:disabled) {
-  background-color: var(--color-success-dark);
 }
 
 .actionButton:disabled {
-  background-color: var(--color-disabled);
+  opacity: 0.4;
   cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
   transform: none;
 }
 
+.distributeButton {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  box-shadow: 0 0 12px rgba(88, 166, 255, 0.2);
+}
+
+.distributeButton:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+}
+
+.saveButton {
+  background: var(--color-success-dim);
+  color: var(--color-success);
+  border: 1px solid rgba(63, 185, 80, 0.3);
+}
+
+.saveButton:hover:not(:disabled) {
+  background: var(--color-success);
+  color: white;
+  border-color: var(--color-success);
+}
+
+/* -- Stats Row -- */
 .stats {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 1.5rem;
+  gap: var(--sp-4);
 }
 
 .statCard {
-  padding: 1.5rem;
-  background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.25s ease;
+  gap: var(--sp-2);
+  transition: all var(--transition-fast);
 }
 
 .statCard:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-.statIcon {
-  font-size: 1.75rem;
-  color: var(--color-primary);
-  margin-bottom: 0.75rem;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-glow);
 }
 
 .statValue {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: 0.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1;
 }
 
 .statLabel {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
-  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
   font-weight: 500;
 }
 
+/* -- Balance Indicator -- */
+.balanceBar {
+  width: 100%;
+  margin-top: var(--sp-1);
+  display: flex;
+  gap: 2px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.balanceSegment {
+  height: 100%;
+  transition: width var(--transition-slow);
+  border-radius: var(--radius-full);
+}
+
+.balanceSegment.black { background: var(--color-text); }
+.balanceSegment.white { background: var(--color-text-secondary); }
+.balanceSegment.unassigned { background: var(--color-text-muted); }
+
+/* -- Team Roster Cards -- */
 .teamsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: var(--sp-6);
 }
 
 .teamRoster {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-surface);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  overflow: visible;
-  box-shadow: var(--shadow-md);
-  transition: all 0.25s ease;
-  height: auto;
+  overflow: hidden;
+  transition: all var(--transition-normal);
 }
 
 .teamRoster:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .teamBlack .teamHeader {
-  background-color: var(--color-team-black);
-  color: white;
+  background: linear-gradient(135deg, #21262d, #30363d);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .teamWhite .teamHeader {
-  background-color: var(--color-team-white);
-  color: black;
+  background: linear-gradient(135deg, #e6edf3, #d0d7de);
+  color: var(--color-bg);
+  border-bottom: 1px solid #c9d1d9;
 }
 
 .teamHeader {
-  padding: 1.25rem 1.75rem;
+  padding: var(--sp-4) var(--sp-5);
 }
 
 .teamTitleContainer {
@@ -1099,482 +1187,371 @@ input, select, textarea {
 
 .teamName {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 
 .playerCount {
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: 0.35rem 0.75rem;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-lg);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  background: rgba(255,255,255,0.12);
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--sp-1);
 }
 
 .teamWhite .playerCount {
-  background-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0,0,0,0.08);
 }
 
 .teamPlayersList {
   padding: 0;
   display: flex;
   flex-direction: column;
-  min-height: auto;
-  max-height: none;
-  overflow-y: visible;
 }
 
-.positionSection {
-  margin-bottom: 1rem;
-}
+.positionSection { margin-bottom: 0; }
 
 .positionHeader {
-  padding: 0.75rem 1.5rem;
+  padding: var(--sp-3) var(--sp-5);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background-color: var(--color-surface-variant);
+  gap: var(--sp-2);
+  background: var(--color-bg-raised);
   border-bottom: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
 }
 
 .positionTitle {
-  font-size: 1rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
   font-weight: 600;
+  color: var(--color-text-secondary);
   margin: 0;
-  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .positionCount {
-  font-size: 0.75rem;
-  font-weight: 500;
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-lg);
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--color-accent-dim);
+  color: var(--color-accent);
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
 }
 
-.positionPlayers {
-  padding: 0.5rem 0;
-}
+.positionPlayers { padding: 0; }
 
 .teamPlayer {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  transition: all 0.2s ease;
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--sp-3) var(--sp-5);
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
-.teamPlayer:last-child {
-  border-bottom: none;
-}
-
-.teamPlayer:hover {
-  background-color: var(--color-hover);
-}
+.teamPlayer:last-child { border-bottom: none; }
+.teamPlayer:hover { background: rgba(255,255,255,0.02); }
 
 .playerIndex {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-right: var(--sp-3);
+  border: 1px solid var(--color-border);
+}
+
+.teamPlayer .playerName {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.removeButton {
   width: 1.75rem;
   height: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-secondary);
-  color: white;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-right: 1rem;
-}
-
-.removeButton {
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  color: var(--color-text-secondary);
+  background: transparent;
+  color: var(--color-text-muted);
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all var(--transition-fast);
   margin-left: auto;
+  font-size: 0.75rem;
 }
 
 .removeButton:hover {
-  background-color: var(--color-error);
-  color: white;
+  background: var(--color-error-dim);
+  color: var(--color-error);
 }
 
 .emptyTeam {
-  padding: 3rem 2rem;
+  padding: var(--sp-10) var(--sp-6);
   text-align: center;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--sp-3);
 }
 
-.emptyTeamIcon {
-  font-size: 3rem;
-  color: var(--color-border);
-}
+.emptyTeamIcon { font-size: 2rem; color: var(--color-text-muted); }
 
 .emptyTeamSubtext {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
 }
 
-.unassignedSection {
-  margin-top: 1.5rem;
-}
+/* -- Unassigned Players -- */
+.unassignedSection { margin-top: var(--sp-6); }
 
 .sectionTitle {
-  font-size: 1.25rem;
-  margin: 0 0 1.25rem 0;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--color-border);
-  color: var(--color-text-primary);
-  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 var(--sp-4) 0;
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
 
-.unassignedPositionSection {
-  margin-bottom: 2rem;
-}
+.sectionTitle i { color: var(--color-warning); }
+
+.unassignedPositionSection { margin-bottom: var(--sp-6); }
 
 .unassignedList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
+  gap: var(--sp-3);
 }
 
 .unassignedPlayer {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.25rem;
-  background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  transition: all 0.25s ease;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
 }
 
 .unassignedPlayer:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  border-color: var(--color-text-muted);
 }
 
 .unassignedPlayer .playerName {
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
 .unassignedPlayer .actions {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--sp-2);
 }
 
 .teamButton {
   flex: 1;
-  padding: 0.75rem;
+  padding: var(--sp-2) var(--sp-3);
   border: none;
-  border-radius: var(--radius-md);
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all var(--transition-fast);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-}
-
-.teamButton:hover {
-  transform: translateY(-2px);
-}
-
-.teamBlackBtn {
-  background-color: var(--color-team-black);
-  color: white;
-}
-
-.teamBlackBtn:hover {
-  background-color: var(--color-secondary);
-}
-
-.teamWhiteBtn {
-  background-color: var(--color-team-white);
-  color: black;
-}
-
-.teamWhiteBtn:hover {
-  background-color: var(--color-team-white-dark);
+  gap: var(--sp-1);
 }
 
 @media (max-width: 768px) {
-  .teamsView .header {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .teamsView .actions {
-    width: 100%;
-  }
-  
-  .teamsView .actionButton {
-    flex: 1;
-    justify-content: center;
-  }
-  
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .teamsContainer {
-    grid-template-columns: 1fr;
-  }
-  
-  .unassignedList {
-    grid-template-columns: 1fr;
-  }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .teamsContainer { grid-template-columns: 1fr; }
+  .unassignedList { grid-template-columns: 1fr; }
+  .teamsView > .header { flex-direction: column; }
+  .teamsView .actions { width: 100%; }
+  .teamsView .actionButton { flex: 1; justify-content: center; }
 }
 
-/* ==========================
-   SettingsView Component Styles
-   ========================== */
+/* ============================================================
+   SETTINGSVIEW
+   Settings cards for data management, about, and import.
+   ============================================================ */
 .settingsView {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-}
-
-.settingsView .header {
-  margin-bottom: 0.5rem;
-  position: relative;
-  box-shadow: none;
-  background-color: transparent;
-  padding: 0;
-  display: block;
-  border: none;
+  gap: var(--sp-6);
 }
 
 .settingsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: var(--sp-6);
 }
 
 .settingsCard {
-  background-color: var(--color-surface);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  box-shadow: var(--shadow-md);
-  transition: all 0.25s ease;
+  padding: var(--sp-6);
+  transition: all var(--transition-normal);
 }
 
 .settingsCard:hover {
-  box-shadow: var(--shadow-lg);
+  border-color: var(--color-text-muted);
 }
 
 .cardTitle {
-  font-size: 1.25rem;
-  margin: 0 0 1.25rem 0;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--color-border);
-  color: var(--color-text-primary);
-  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 var(--sp-5) 0;
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
 
-.settingItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-}
-
-.settingInfo {
-  display: flex;
-  flex-direction: column;
-}
-
-.settingLabel {
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 0.25rem;
-  font-size: 1.05rem;
-}
-
-.settingDescription {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-}
+.cardTitle i { color: var(--color-accent); }
 
 .settingActions {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--sp-3);
 }
 
 .exportButton {
-  background-color: var(--color-primary);
-  color: white;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  box-shadow: 0 0 12px rgba(88, 166, 255, 0.2);
 }
 
 .exportButton:hover:not(:disabled) {
-  background-color: var(--color-secondary);
+  background: var(--color-accent-hover);
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+}
+
+.importButton {
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.importButton:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .resetButton {
-  background-color: var(--color-surface-variant);
-  color: var(--color-text-primary);
+  background: var(--color-bg-raised);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
 }
 
 .resetButton:hover {
-  background-color: #f5e6e6;
+  border-color: var(--color-error);
   color: var(--color-error);
+  background: var(--color-error-dim);
 }
 
 .confirmReset {
-  background-color: var(--color-error);
+  background: var(--color-error);
   color: white;
+  border: 1px solid var(--color-error);
 }
 
 .confirmReset:hover {
-  background-color: var(--color-error-dark);
+  background: #e5443d;
 }
 
 .resetNote {
-  font-size: 0.85rem;
-  color: var(--color-text-secondary);
-  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: var(--sp-4);
   line-height: 1.6;
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 
-.toggleContainer {
-  display: flex;
-  align-items: center;
-}
+.resetNote i { color: var(--color-warning); margin-top: 3px; }
 
-.themeToggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.toggleTrack {
-  display: block;
-  position: relative;
-  width: 50px;
-  height: 24px;
-  background-color: var(--color-border);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.themeToggle.active .toggleTrack {
-  background-color: var(--color-primary);
-}
-
-.toggleKnob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  color: var(--color-warning);
-  font-size: 0.85rem;
-}
-
-.themeToggle.active .toggleKnob {
-  left: calc(100% - 22px);
-  color: var(--color-primary-dark);
+/* Hidden file input for import */
+.hiddenFileInput {
+  display: none;
 }
 
 .aboutContent {
-  font-size: 0.95rem;
-  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
   line-height: 1.7;
 }
 
 .versionInfo {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
-  background-color: var(--color-surface-variant);
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
+  margin-bottom: var(--sp-4);
+  background: var(--color-bg-raised);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
 }
 
 .versionLabel {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sp-2);
   font-weight: 500;
-  margin-right: 1rem;
+  margin-right: var(--sp-4);
+  color: var(--color-text-secondary);
 }
 
 .versionValue {
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .developerInfo {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
   border-top: 1px solid var(--color-border);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sp-2);
+  color: var(--color-text-secondary);
 }
+
+.developerInfo strong { color: var(--color-text); }
 
 .aboutContent p {
-  margin: 0 0 1rem 0;
+  margin: 0 0 var(--sp-3) 0;
 }
 
-.aboutContent p:last-child {
-  margin-bottom: 0;
-}
+.aboutContent p:last-child { margin-bottom: 0; }
 
 @media (max-width: 768px) {
-  .settingsGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Dark mode styles */
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
-  
-  --color-surface: #1e1e1e;
-  --color-surface-variant: #2d2d2d;
-  --color-hover: #3d3d3d;
-  --color-border: #444444;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #aaaaaa;
+  .settingsGrid { grid-template-columns: 1fr; }
 }

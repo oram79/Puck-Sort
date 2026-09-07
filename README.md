@@ -6,7 +6,7 @@
 
 PuckSort is a modern, React-based web application designed to simplify hockey team management. Perfect for league organizers who need to create balanced teams each week and distribute rosters with minimal hassle.
 
-## 🏒 Features
+## Features
 
 - **Player Management**: Easily add, remove, and track players in your league
 - **Team Assignment**: Drag-and-drop interface to assign players to Team Black or Team White
@@ -15,7 +15,7 @@ PuckSort is a modern, React-based web application designed to simplify hockey te
 - **Responsive Design**: Works on desktop and mobile devices
 - **Persistent Storage**: Team and player data saved between sessions
 
-## 🛠️ Technologies
+## Technologies
 
 - **React**: Built with functional components and hooks
 - **Context API**: Centralized state management
@@ -23,38 +23,7 @@ PuckSort is a modern, React-based web application designed to simplify hockey te
 - **React Icons**: Hockey-themed icon set
 - **Local Storage API**: Data persistence between sessions
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js (v14.0.0 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/oram79/pucksort.git
-   cd puck-sort
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm start
-   # or
-   yarn start
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## 📖 Usage
+## Usage
 
 ### Adding Players
 
@@ -80,11 +49,11 @@ PuckSort is a modern, React-based web application designed to simplify hockey te
 2. A text file will be downloaded with your team rosters
 3. Share this file with your players via email or messaging apps
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📱 Contact
+## Contact
 
 Logan Oram - [@oram79](https://www.instagram.com/oram_7913/) - logansjoram7922@gmail.com
 

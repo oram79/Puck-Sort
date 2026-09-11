@@ -727,138 +727,98 @@ a {
   transform: none;
 }
 
-/* -- Position Columns -- */
-.rosterColumns {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--sp-4);
-  align-items: start;
-}
-
-.rosterColumn {
+/* -- Categorized Player List --
+   One continuous list box, split into position sections.
+   Shared by RosterView and the Teams "Unassigned" list. -- */
+.rosterList {
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-raised);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
-.rosterColumnHeader {
+.playerRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--sp-4) var(--sp-4);
-  background: var(--color-bg-card);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.rosterColumnTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--color-text);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.rosterColumnTitle i { color: var(--color-accent); font-size: 0.8rem; }
-
-.rosterColumnCount {
-  font-size: 0.7rem;
-  font-weight: 700;
-  background: var(--color-accent-dim);
-  color: var(--color-accent);
-  padding: 2px 9px;
-  border-radius: var(--radius-full);
-  min-width: 20px;
-  text-align: center;
-}
-
-.rosterColumnBody {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding: var(--sp-4);
-  flex: 1;
-}
-
-.rosterColumnEmpty {
-  padding: var(--sp-6) var(--sp-2);
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-}
-
-@media (max-width: 1024px) {
-  .rosterColumns { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 640px) {
-  .rosterColumns { grid-template-columns: 1fr; }
-}
-
-.playerCard {
-  position: relative;
-  display: flex;
-  flex-direction: column;
   gap: var(--sp-4);
-  padding: var(--sp-5);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-normal);
-  overflow: hidden;
-}
-
-.playerCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--color-border);
-  transition: background var(--transition-normal);
-}
-
-.playerCard:hover {
-  border-color: var(--color-text-muted);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-.playerCard:hover::before {
-  background: var(--color-accent);
-}
-
-.playerCard.assigned::before {
-  background: var(--color-accent);
-}
-
-.playerInfo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-}
-
-.nameContainer {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background var(--transition-fast);
   flex-wrap: wrap;
 }
 
-.playerName {
-  margin: 0;
+.positionPlayers .playerRow:last-child { border-bottom: none; }
+.playerRow:hover { background: rgba(255, 255, 255, 0.02); }
+
+.playerRowInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-width: 140px;
+}
+
+.playerRowName {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-text);
 }
+
+.playerRowActions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+/* -- Compact row action buttons -- */
+.rowBtn {
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  transition: all var(--transition-fast);
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.rowIconBtn {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all var(--transition-fast);
+}
+
+.rowIconBtn.edit { background: var(--color-info-dim); color: var(--color-info); }
+.rowIconBtn.edit:hover { background: var(--color-info); color: var(--color-bg); }
+.rowIconBtn.delete { background: var(--color-error-dim); color: var(--color-error); }
+.rowIconBtn.delete:hover { background: var(--color-error); color: white; }
+.rowIconBtn.save { background: var(--color-success); color: white; }
+.rowIconBtn.save:hover { background: #4ac95f; }
+.rowIconBtn.cancel { background: var(--color-bg-raised); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+.rowIconBtn.cancel:hover { background: var(--color-bg-card-hover); color: var(--color-text); }
+
+/* -- Inline Row Editing -- */
+.playerRowEditing { gap: var(--sp-3); }
+.rowEditInput { flex: 1; min-width: 140px; }
+.rowEditSelect { max-width: 140px; }
 
 .teamBadge {
   padding: 3px 10px;
@@ -881,41 +841,6 @@ a {
 .teamWhite {
   background: var(--color-team-white-bg);
   color: var(--color-team-white);
-}
-
-.positionContainer {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  font-size: 0.825rem;
-  color: var(--color-text-secondary);
-}
-
-
-
-.positionLabel { font-weight: 500; }
-
-/* -- Player Card Action Buttons -- */
-.playerActions {
-  display: flex;
-  gap: var(--sp-2);
-  flex-wrap: wrap;
-}
-
-.playerActions .actionButton {
-  flex: 1;
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-1);
-  transition: all var(--transition-fast);
-  box-shadow: none;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
 
 .teamBlackBtn {
@@ -948,40 +873,8 @@ a {
   color: var(--color-bg);
 }
 
-.editBtn {
-  background: var(--color-info-dim);
-  color: var(--color-info);
-}
-
-.editBtn:hover {
-  background: var(--color-info);
-  color: var(--color-bg);
-}
-
-.deleteBtn {
-  background: var(--color-error-dim);
-  color: var(--color-error);
-}
-
-.deleteBtn:hover {
-  background: var(--color-error);
-  color: white;
-}
-
-/* -- Edit Mode on Player Card -- */
-.editForm {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-}
-
-.editRow {
-  display: flex;
-  gap: var(--sp-2);
-}
-
+/* -- Inline Edit Inputs (used within .playerRowEditing) -- */
 .editInput {
-  flex: 1;
   padding: var(--sp-2) var(--sp-3);
   background: var(--color-bg-input);
   border: 1px solid var(--color-accent);
@@ -1003,50 +896,6 @@ a {
   cursor: pointer;
 }
 
-.editActions {
-  display: flex;
-  gap: var(--sp-2);
-}
-
-.saveEditBtn {
-  flex: 1;
-  padding: var(--sp-2);
-  background: var(--color-success);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 0.8rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-1);
-  transition: all var(--transition-fast);
-}
-
-.saveEditBtn:hover { background: #4ac95f; }
-
-.cancelEditBtn {
-  flex: 1;
-  padding: var(--sp-2);
-  background: var(--color-bg-raised);
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-size: 0.8rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-1);
-  transition: all var(--transition-fast);
-}
-
-.cancelEditBtn:hover {
-  background: var(--color-bg-card-hover);
-  color: var(--color-text);
-}
-
 /* -- Empty State -- */
 .emptyState {
   display: flex;
@@ -1058,7 +907,6 @@ a {
   border: 1px dashed var(--color-border);
   border-radius: var(--radius-lg);
   text-align: center;
-  grid-column: 1 / -1;
   gap: var(--sp-3);
 }
 
@@ -1085,7 +933,6 @@ a {
 @media (max-width: 768px) {
   .controls { flex-direction: column; align-items: stretch; }
   .searchContainer { max-width: none; }
-  .playerActions { flex-wrap: wrap; }
 }
 
 /* ============================================================
@@ -1233,27 +1080,17 @@ a {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--transition-normal);
+  transition: border-color var(--transition-fast);
 }
 
 .teamRoster:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.teamBlack .teamHeader {
-  background: linear-gradient(135deg, #21262d, #30363d);
-  color: var(--color-text);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.teamWhite .teamHeader {
-  background: linear-gradient(135deg, #e6edf3, #d0d7de);
-  color: var(--color-bg);
-  border-bottom: 1px solid #c9d1d9;
+  border-color: var(--color-text-muted);
 }
 
 .teamHeader {
   padding: var(--sp-4) var(--sp-5);
+  background: var(--color-bg-raised);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .teamTitleContainer {
@@ -1265,26 +1102,27 @@ a {
 .teamName {
   margin: 0;
   font-family: 'Outfit', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
+  color: var(--color-text);
   display: flex;
   align-items: center;
   gap: var(--sp-2);
 }
 
+.teamBlack .teamName i { color: var(--color-text); }
+.teamWhite .teamName i { color: #e6edf3; }
+
 .playerCount {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  background: rgba(255,255,255,0.12);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 9px;
+  background: var(--color-accent-dim);
+  color: var(--color-accent);
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   gap: var(--sp-1);
-}
-
-.teamWhite .playerCount {
-  background: rgba(0,0,0,0.08);
 }
 
 .teamPlayersList {
@@ -1353,6 +1191,8 @@ a {
 }
 
 .teamPlayer .playerName {
+  font-family: 'Outfit', sans-serif;
+  color: var(--color-text);
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -1413,58 +1253,9 @@ a {
 
 .sectionTitle i { color: var(--color-warning); }
 
-.unassignedPositionSection { margin-bottom: var(--sp-6); }
-
-.unassignedList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--sp-3);
-}
-
-.unassignedPlayer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding: var(--sp-4);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-}
-
-.unassignedPlayer:hover {
-  border-color: var(--color-text-muted);
-}
-
-.unassignedPlayer .playerName {
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.unassignedPlayer .actions {
-  display: flex;
-  gap: var(--sp-2);
-}
-
-.teamButton {
-  flex: 1;
-  padding: var(--sp-2) var(--sp-3);
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-1);
-}
-
 @media (max-width: 768px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
   .teamsContainer { grid-template-columns: 1fr; }
-  .unassignedList { grid-template-columns: 1fr; }
   .teamsView > .header { flex-direction: column; }
   .teamsView .actions { width: 100%; }
   .teamsView .actionButton { flex: 1; justify-content: center; }

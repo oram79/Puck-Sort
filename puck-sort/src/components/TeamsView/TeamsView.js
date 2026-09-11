@@ -44,20 +44,22 @@ const TeamsView = () => {
     if (list.length === 0) return null;
 
     return (
-      <div className="unassignedPositionSection" key={positionType}>
+      <div className="positionSection" key={positionType}>
         <div className="positionHeader">
           <h3 className="positionTitle">{positionType}s</h3>
           <span className="positionCount">{list.length}</span>
         </div>
-        <div className="unassignedList">
+        <div className="positionPlayers">
           {list.map(player => (
-            <div key={player.id} className="unassignedPlayer">
-              <span className="playerName">{player.name}</span>
-              <div className="actions">
-                <button onClick={() => addToTeam1(player)} className="teamButton teamBlackBtn">
+            <div key={player.id} className="playerRow">
+              <div className="playerRowInfo">
+                <span className="playerRowName">{player.name}</span>
+              </div>
+              <div className="playerRowActions">
+                <button onClick={() => addToTeam1(player)} className="rowBtn teamBlackBtn">
                   <i className="fas fa-plus"></i> Black
                 </button>
-                <button onClick={() => addToTeam2(player)} className="teamButton teamWhiteBtn">
+                <button onClick={() => addToTeam2(player)} className="rowBtn teamWhiteBtn">
                   <i className="fas fa-plus"></i> White
                 </button>
               </div>
@@ -144,10 +146,12 @@ const TeamsView = () => {
           <h2 className="sectionTitle">
             <i className="fas fa-user-clock"></i> Unassigned Players
           </h2>
-          {renderUnassignedPosition(POSITIONS.GOALIE)}
-          {renderUnassignedPosition(POSITIONS.DEFENSE)}
-          {renderUnassignedPosition(POSITIONS.FORWARD)}
-          {renderUnassignedPosition(POSITIONS.SPARE)}
+          <div className="rosterList">
+            {renderUnassignedPosition(POSITIONS.GOALIE)}
+            {renderUnassignedPosition(POSITIONS.DEFENSE)}
+            {renderUnassignedPosition(POSITIONS.FORWARD)}
+            {renderUnassignedPosition(POSITIONS.SPARE)}
+          </div>
         </div>
       )}
     </div>

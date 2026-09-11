@@ -3,17 +3,17 @@ import { useTeamContext } from '../../context/TeamContext';
 import ConfirmModal from '../Modal/ConfirmModal';
 
 /**
- * PlayerCard
- * 
- * Renders a single player as a card in the roster grid.
- * 
+ * PlayerRow
+ *
+ * Renders a single player as one row in the categorized roster list.
+ *
  * Features:
- *  - Shows player name, position, and team assignment badge
+ *  - Shows player name and team assignment badge (if assigned)
  *  - Action buttons: assign to Team Black/White, remove from team
- *  - Edit button: toggles inline edit mode (name + position)
+ *  - Edit button: toggles inline edit mode (name + position) within the row
  *  - Delete button: triggers a confirmation modal first
  */
-const PlayerCard = ({ player }) => {
+const PlayerRow = ({ player }) => {
   const {
     handleRemovePlayer,
     editPlayer,
@@ -35,7 +35,6 @@ const PlayerCard = ({ player }) => {
   const isInTeam1 = team1.some(p => p.id === player.id);
   const isInTeam2 = team2.some(p => p.id === player.id);
   const isAssigned = isInTeam1 || isInTeam2;
-
 
   // -- Edit Handlers --
   const handleStartEdit = () => {
@@ -69,43 +68,37 @@ const PlayerCard = ({ player }) => {
 
   // -------------------------------------------------------
   // EDIT MODE RENDER
-  // Shows input fields instead of the player info display.
+  // Inline name input + position select within the same row.
   // -------------------------------------------------------
   if (isEditing) {
     return (
-      <div className="playerCard">
-        <div className="editForm">
-          <div className="editRow">
-            <input
-              type="text"
-              className="editInput"
-              value={editName}
-              onChange={(e) => setEditName(e.target.value)}
-              onKeyDown={handleKeyDown}
-              autoFocus
-              placeholder="Player name"
-            />
-          </div>
-          <div className="editRow">
-            <select
-              className="editSelect"
-              value={editPosition}
-              onChange={(e) => setEditPosition(e.target.value)}
-            >
-              <option value={POSITIONS.FORWARD}>Forward</option>
-              <option value={POSITIONS.DEFENSE}>Defense</option>
-              <option value={POSITIONS.GOALIE}>Goalie</option>
-              <option value={POSITIONS.SPARE}>Spare</option>
-            </select>
-          </div>
-          <div className="editActions">
-            <button className="saveEditBtn" onClick={handleSaveEdit}>
-              <i className="fas fa-check"></i> Save
-            </button>
-            <button className="cancelEditBtn" onClick={handleCancelEdit}>
-              <i className="fas fa-xmark"></i> Cancel
-            </button>
-          </div>
+      <div className="playerRow playerRowEditing">
+        <input
+          type="text"
+          className="editInput rowEditInput"
+          value={editName}
+          onChange={(e) => setEditName(e.target.value)}
+          onKeyDown={handleKeyDown}
+          autoFocus
+          placeholder="Player name"
+        />
+        <select
+          className="editSelect rowEditSelect"
+          value={editPosition}
+          onChange={(e) => setEditPosition(e.target.value)}
+        >
+          <option value={POSITIONS.FORWARD}>Forward</option>
+          <option value={POSITIONS.DEFENSE}>Defense</option>
+          <option value={POSITIONS.GOALIE}>Goalie</option>
+          <option value={POSITIONS.SPARE}>Spare</option>
+        </select>
+        <div className="playerRowActions">
+          <button className="rowIconBtn save" onClick={handleSaveEdit} aria-label="Save changes">
+            <i className="fas fa-check"></i>
+          </button>
+          <button className="rowIconBtn cancel" onClick={handleCancelEdit} aria-label="Cancel edit">
+            <i className="fas fa-xmark"></i>
+          </button>
         </div>
       </div>
     );
@@ -113,38 +106,32 @@ const PlayerCard = ({ player }) => {
 
   // -------------------------------------------------------
   // NORMAL MODE RENDER
-  // Shows the player info and action buttons.
   // -------------------------------------------------------
   return (
     <>
-      <div className={`playerCard ${isAssigned ? 'assigned' : ''}`}>
-        <div className="playerInfo">
-          <div className="nameContainer">
-            <h3 className="playerName">{player.name}</h3>
-            {isAssigned && (
-              <div className={`teamBadge ${isInTeam1 ? 'teamBlack' : 'teamWhite'}`}>
-                {isInTeam1 ? 'Black' : 'White'}
-              </div>
-            )}
-          </div>
-          <div className="positionContainer">
-            <span className="positionLabel">{player.position}</span>
-          </div>
+      <div className="playerRow">
+        <div className="playerRowInfo">
+          <span className="playerRowName">{player.name}</span>
+          {isAssigned && (
+            <span className={`teamBadge ${isInTeam1 ? 'teamBlack' : 'teamWhite'}`}>
+              {isInTeam1 ? 'Black' : 'White'}
+            </span>
+          )}
         </div>
 
-        <div className="playerActions">
+        <div className="playerRowActions">
           {!isAssigned ? (
             <>
               <button
                 onClick={() => addToTeam1(player)}
-                className="actionButton teamBlackBtn"
+                className="rowBtn teamBlackBtn"
                 aria-label="Add to Team Black"
               >
                 <i className="fas fa-plus"></i> Black
               </button>
               <button
                 onClick={() => addToTeam2(player)}
-                className="actionButton teamWhiteBtn"
+                className="rowBtn teamWhiteBtn"
                 aria-label="Add to Team White"
               >
                 <i className="fas fa-plus"></i> White
@@ -153,7 +140,7 @@ const PlayerCard = ({ player }) => {
           ) : (
             <button
               onClick={() => removeFromTeams(player)}
-              className="actionButton removeTeamBtn"
+              className="rowBtn removeTeamBtn"
               aria-label="Remove from team"
             >
               <i className="fas fa-minus"></i> Unassign
@@ -161,14 +148,14 @@ const PlayerCard = ({ player }) => {
           )}
           <button
             onClick={handleStartEdit}
-            className="actionButton editBtn"
+            className="rowIconBtn edit"
             aria-label="Edit player"
           >
-            <i className="fas fa-pen"></i> Edit
+            <i className="fas fa-pen"></i>
           </button>
           <button
             onClick={handleDeleteClick}
-            className="actionButton deleteBtn"
+            className="rowIconBtn delete"
             aria-label="Delete player"
           >
             <i className="fas fa-trash-can"></i>
@@ -191,4 +178,4 @@ const PlayerCard = ({ player }) => {
   );
 };
 
-export default PlayerCard;
+export default PlayerRow;

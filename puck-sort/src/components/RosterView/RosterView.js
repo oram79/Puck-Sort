@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
-import PlayerCard from './PlayerCard';
+import PlayerRow from './PlayerRow';
 
-// Column display order + icon/copy for each position
-const COLUMN_CONFIG = [
+// Section display order + icon/copy for each position
+const SECTION_CONFIG = [
   { key: 'FORWARD', label: 'Forwards', icon: 'fa-bolt' },
   { key: 'DEFENSE', label: 'Defense', icon: 'fa-shield-halved' },
   { key: 'GOALIE', label: 'Goalies', icon: 'fa-mask' },
@@ -17,7 +17,7 @@ const COLUMN_CONFIG = [
  *  1. Section header with title + subtitle
  *  2. Controls bar: search input + sort dropdown
  *  3. Add Player form: name input, position select, add button
- *  4. Four position columns (Forwards / Defense / Goalies / Spares)
+ *  4. A single list of players, grouped into position sections
  *  5. Empty state: shown when no players exist at all
  */
 const RosterView = () => {
@@ -120,29 +120,25 @@ const RosterView = () => {
         </button>
       </div>
 
-      {/* -- Position Columns -- */}
+      {/* -- Categorized Player List -- */}
       {hasAnyPlayers ? (
-        <div className="rosterColumns">
-          {COLUMN_CONFIG.map(({ key, label, icon }) => {
+        <div className="rosterList">
+          {SECTION_CONFIG.map(({ key, label, icon }) => {
             const positionPlayers = playersByPosition[POSITIONS[key]];
+            if (positionPlayers.length === 0) return null;
+
             return (
-              <div className="rosterColumn" key={key}>
-                <div className="rosterColumnHeader">
-                  <span className="rosterColumnTitle">
+              <div className="positionSection" key={key}>
+                <div className="positionHeader">
+                  <h3 className="positionTitle">
                     <i className={`fas ${icon}`}></i> {label}
-                  </span>
-                  <span className="rosterColumnCount">{positionPlayers.length}</span>
+                  </h3>
+                  <span className="positionCount">{positionPlayers.length}</span>
                 </div>
-                <div className="rosterColumnBody">
-                  {positionPlayers.length > 0 ? (
-                    positionPlayers.map(player => (
-                      <PlayerCard key={player.id} player={player} />
-                    ))
-                  ) : (
-                    <div className="rosterColumnEmpty">
-                      No {label.toLowerCase()} {searchTerm ? 'match your search' : 'yet'}
-                    </div>
-                  )}
+                <div className="positionPlayers">
+                  {positionPlayers.map(player => (
+                    <PlayerRow key={player.id} player={player} />
+                  ))}
                 </div>
               </div>
             );

@@ -2,15 +2,23 @@ import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 import PlayerCard from './PlayerCard';
 
+// Column display order + icon/copy for each position
+const COLUMN_CONFIG = [
+  { key: 'FORWARD', label: 'Forwards', icon: 'fa-bolt' },
+  { key: 'DEFENSE', label: 'Defense', icon: 'fa-shield-halved' },
+  { key: 'GOALIE', label: 'Goalies', icon: 'fa-mask' },
+  { key: 'SPARE', label: 'Spares', icon: 'fa-user-plus' },
+];
+
 /**
  * RosterView
- * 
+ *
  * The primary player management interface. Contains:
  *  1. Section header with title + subtitle
- *  2. Controls bar: search input + sort/filter dropdowns
+ *  2. Controls bar: search input + sort dropdown
  *  3. Add Player form: name input, position select, add button
- *  4. Player card grid: auto-fill responsive layout
- *  5. Empty state: shown when no players match
+ *  4. Four position columns (Forwards / Defense / Goalies / Spares)
+ *  5. Empty state: shown when no players exist at all
  */
 const RosterView = () => {
   const {
@@ -19,12 +27,13 @@ const RosterView = () => {
     handleAddPlayer,
     searchTerm, setSearchTerm,
     sortOption, setSortOption,
-    positionFilter, setPositionFilter,
-    getFilteredPlayers,
+    getFilteredPlayers, getPlayersByPosition,
     POSITIONS
   } = useTeamContext();
 
   const filteredPlayers = getFilteredPlayers();
+  const playersByPosition = getPlayersByPosition(filteredPlayers);
+  const hasAnyPlayers = filteredPlayers.length > 0;
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') handleAddPlayer();
@@ -42,7 +51,7 @@ const RosterView = () => {
         </p>
       </div>
 
-      {/* -- Controls: Search + Sort + Filter -- */}
+      {/* -- Controls: Search + Sort -- */}
       <div className="controls">
         <div className="searchContainer">
           <i className="fas fa-magnifying-glass search-icon"></i>
@@ -77,23 +86,6 @@ const RosterView = () => {
               <option value="name-desc">Name (Z-A)</option>
               <option value="date-asc">Oldest First</option>
               <option value="date-desc">Newest First</option>
-              <option value="position">Position</option>
-            </select>
-          </div>
-
-          <div className="positionFilterContainer">
-            <label htmlFor="position-filter" className="filterLabel">Position:</label>
-            <select
-              id="position-filter"
-              className="filterSelect"
-              value={positionFilter}
-              onChange={(e) => setPositionFilter(e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="forward">Forwards</option>
-              <option value="defense">Defense</option>
-              <option value="goalie">Goalies</option>
-              <option value="spare">Spares</option>
             </select>
           </div>
         </div>
@@ -128,29 +120,50 @@ const RosterView = () => {
         </button>
       </div>
 
-      {/* -- Player Cards Grid -- */}
-      <div className="playersList">
-        {filteredPlayers.length > 0 ? (
-          filteredPlayers.map(player => (
-            <PlayerCard key={player.id} player={player} />
-          ))
-        ) : (
-          <div className="emptyState">
-            <i className="fas fa-user-slash emptyIcon"></i>
-            {searchTerm || positionFilter !== 'all' ? (
-              <>
-                <p className="emptyTitle">No players found</p>
-                <p className="emptyDesc">Try different search terms or filters</p>
-              </>
-            ) : (
-              <>
-                <p className="emptyTitle">No players added yet</p>
-                <p className="emptyDesc">Add players to start building your teams</p>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+      {/* -- Position Columns -- */}
+      {hasAnyPlayers ? (
+        <div className="rosterColumns">
+          {COLUMN_CONFIG.map(({ key, label, icon }) => {
+            const positionPlayers = playersByPosition[POSITIONS[key]];
+            return (
+              <div className="rosterColumn" key={key}>
+                <div className="rosterColumnHeader">
+                  <span className="rosterColumnTitle">
+                    <i className={`fas ${icon}`}></i> {label}
+                  </span>
+                  <span className="rosterColumnCount">{positionPlayers.length}</span>
+                </div>
+                <div className="rosterColumnBody">
+                  {positionPlayers.length > 0 ? (
+                    positionPlayers.map(player => (
+                      <PlayerCard key={player.id} player={player} />
+                    ))
+                  ) : (
+                    <div className="rosterColumnEmpty">
+                      No {label.toLowerCase()} {searchTerm ? 'match your search' : 'yet'}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="emptyState">
+          <i className="fas fa-user-slash emptyIcon"></i>
+          {searchTerm ? (
+            <>
+              <p className="emptyTitle">No players found</p>
+              <p className="emptyDesc">Try a different search term</p>
+            </>
+          ) : (
+            <>
+              <p className="emptyTitle">No players added yet</p>
+              <p className="emptyDesc">Add players to start building your teams</p>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

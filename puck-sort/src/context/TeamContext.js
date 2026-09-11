@@ -33,7 +33,6 @@ export const TeamProvider = ({ children }) => {
   const [activeTab, setActiveTab] = useState('roster');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('name-asc');
-  const [positionFilter, setPositionFilter] = useState('all');
 
   // -------------------------------------------------------
   // Notification Helper
@@ -333,12 +332,6 @@ export const TeamProvider = ({ children }) => {
       );
     }
 
-    if (positionFilter !== 'all') {
-      filtered = filtered.filter(p =>
-        p.position.toLowerCase() === positionFilter
-      );
-    }
-
     switch (sortOption) {
       case 'name-asc':
         return filtered.sort((a, b) => a.name.localeCompare(b.name));
@@ -348,15 +341,10 @@ export const TeamProvider = ({ children }) => {
         return filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       case 'date-desc':
         return filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      case 'position':
-        return filtered.sort((a, b) => {
-          const order = [POSITIONS.GOALIE, POSITIONS.DEFENSE, POSITIONS.FORWARD, POSITIONS.SPARE];
-          return order.indexOf(a.position) - order.indexOf(b.position);
-        });
       default:
         return filtered;
     }
-  }, [players, searchTerm, positionFilter, sortOption]);
+  }, [players, searchTerm, sortOption]);
 
   // -------------------------------------------------------
   // Context Value
@@ -365,14 +353,14 @@ export const TeamProvider = ({ children }) => {
   const contextValue = {
     players, newPlayer, newPlayerPosition,
     team1, team2, notification, isLoading,
-    activeTab, searchTerm, sortOption, positionFilter,
+    activeTab, searchTerm, sortOption,
     POSITIONS,
     setNewPlayer, setNewPlayerPosition,
     handleAddPlayer, handleRemovePlayer, editPlayer,
     addToTeam1, addToTeam2, removeFromTeams,
     autoDistributeTeams, saveTeamsToFile,
     showNotification, setActiveTab,
-    setSearchTerm, setSortOption, setPositionFilter,
+    setSearchTerm, setSortOption,
     getFilteredPlayers, getPlayersByPosition,
     importData
   };

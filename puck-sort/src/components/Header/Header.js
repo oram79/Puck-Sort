@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTeamContext } from '../../context/TeamContext';
 
-const Header = () => {
+const Header = ({ onLogoClick }) => {
   const { activeTab, setActiveTab, players, team1, team2 } = useTeamContext();
 
   // Calculate counts for nav badges
@@ -10,13 +10,17 @@ const Header = () => {
   return (
     <header className="header">
       {/* -- Logo & Tagline -- */}
-      <div className="logoContainer">
+      <button
+        className="logoContainer logoButton"
+        onClick={onLogoClick}
+        aria-label="Back to home"
+      >
         <div className="logo">
           <i className="fas fa-hockey-puck logoIcon"></i>
           <span className="appName">PuckSort</span>
         </div>
         <div className="tagline">Hockey Team Management</div>
-      </div>
+      </button>
 
       {/* -- Navigation Tabs -- */}
       {/* Each tab shows a badge with a relevant count */}

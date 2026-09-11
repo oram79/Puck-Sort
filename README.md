@@ -8,9 +8,11 @@ PuckSort is a modern, React-based web application designed to simplify hockey te
 
 ## Features
 
+- **Landing Page**: A hockey-themed hero screen that leads straight into your roster
 - **Player Management**: Easily add, remove, and track players in your league
-- **Team Assignment**: Drag-and-drop interface to assign players to Team Black or Team White
-- **Auto-Distribution**: One-click team generation with balanced team algorithm
+- **Position-Organized Roster**: Players are grouped into four columns — Forwards, Defense, Goalies, and Spares
+- **Team Assignment**: One-click buttons to assign players to Team Black or Team White
+- **Auto-Distribution**: One-click team generation with a balanced-by-position algorithm
 - **Export Functionality**: Save team rosters for easy sharing via email or messaging
 - **Responsive Design**: Works on desktop and mobile devices
 - **Persistent Storage**: Team and player data saved between sessions
@@ -19,29 +21,32 @@ PuckSort is a modern, React-based web application designed to simplify hockey te
 
 - **React**: Built with functional components and hooks
 - **Context API**: Centralized state management
-- **Framer Motion**: Smooth animations and transitions
-- **React Icons**: Hockey-themed icon set
+- **Font Awesome**: Hockey-themed icon set
 - **Local Storage API**: Data persistence between sessions
 
 ## Usage
 
+### Getting Started
+
+1. Open the app to the PuckSort landing page
+2. Click "Enter Roster" to jump into the player roster
+
 ### Adding Players
 
-1. Enter player names in the input field
-2. Click "Add Player" or press Enter
-3. Players will appear in the Available Players list
+1. Enter a player name, pick a position, and click "Add Player" (or press Enter)
+2. Players appear in the matching position column: Forwards, Defense, Goalies, or Spares
 
 ### Creating Teams
 
 #### Manual Team Assignment
 
-1. For each player, click "Team Black" or "Team White" to assign them
-2. To remove a player from a team, click "Remove"
+1. For each player, click "Black" or "White" to assign them to a team
+2. To remove a player from a team, click "Unassign"
 
 #### Automatic Team Distribution
 
-1. Click the "Auto-Distribute Teams" button
-2. Players will be randomly assigned to ensure balanced teams
+1. Click the "Auto-Distribute" button
+2. Players are shuffled and split evenly within each position to keep teams balanced (spares are excluded)
 
 ### Saving Team Lists
 

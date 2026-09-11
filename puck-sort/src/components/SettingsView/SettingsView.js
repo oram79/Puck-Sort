@@ -26,7 +26,7 @@ const SettingsView = () => {
         team1,
         team2,
         exportDate: new Date().toISOString(),
-        appVersion: '2.0.0'
+        appVersion: '3.0.0'
       };
 
       const jsonData = JSON.stringify(data, null, 2);
@@ -147,7 +147,7 @@ const SettingsView = () => {
               <div className="versionLabel">
                 <i className="fas fa-code-branch"></i> Version
               </div>
-              <div className="versionValue">2.0.0</div>
+              <div className="versionValue">3.0.0</div>
             </div>
             <p>
               PuckSort is a team management system built for recreational hockey leagues.

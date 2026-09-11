@@ -40,9 +40,9 @@ const Landing = ({ onEnter }) => {
           Build balanced teams, every game night.
         </p>
         <p className="landingSubtext">
-          Manage your roster by position, auto-distribute fair matchups,
-          and hand out lineups in seconds — built for recreational
-          hockey leagues.
+          PuckSort is a modern application designed to simplify hockey team management.
+          Perfect for league organizers who need to create balanced teams each week and distribute rosters
+          with minimal hassle.
         </p>
 
         <button className="landingCta" onClick={handleEnter}>
